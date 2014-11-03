@@ -63,6 +63,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -129,6 +131,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contact.cs">
+      <DependentUpon>CustomerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>CustomerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomerModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +168,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <EntityDeploy Include="Models\CustomerModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CustomerModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CustomerModel.edmx.diagram">
+      <DependentUpon>CustomerModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\CustomerModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CustomerModel.Context.cs</LastGenOutput>
+      <DependentUpon>CustomerModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\CustomerModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CustomerModel.cs</LastGenOutput>
+      <DependentUpon>CustomerModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Models\CustomerModel.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -162,7 +203,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -180,11 +223,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

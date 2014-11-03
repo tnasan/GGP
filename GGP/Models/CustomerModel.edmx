@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CustomerModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CustomerModelStoreContainer">
+    <EntitySet Name="Customers" EntityType="CustomerModel.Store.Customers" store:Type="Tables" Schema="Customer" />
+    <EntitySet Name="Contacts" EntityType="CustomerModel.Store.Contacts" store:Type="Tables" Schema="Customer" />
+    <EntitySet Name="CustomerContact" EntityType="CustomerModel.Store.CustomerContact" store:Type="Tables" Schema="Customer" />
+    <AssociationSet Name="FK_CustomerContact_Customer" Association="CustomerModel.Store.FK_CustomerContact_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="CustomerContact" EntitySet="CustomerContact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerContact_Contact" Association="CustomerModel.Store.FK_CustomerContact_Contact">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="CustomerContact" EntitySet="CustomerContact" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TelephoneNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="FaxNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="WebsiteUrl" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contacts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="TelephoneNumber" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="CustomerContact">
+    <Key>
+      <PropertyRef Name="Customers_Id" />
+      <PropertyRef Name="Contacts_Id" />
+    </Key>
+    <Property Name="Customers_Id" Type="bigint" Nullable="false" />
+    <Property Name="Contacts_Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CustomerContact_Customer">
+    <End Role="Customer" Type="CustomerModel.Store.Customers" Multiplicity="1" />
+    <End Role="CustomerContact" Type="CustomerModel.Store.CustomerContact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerContact">
+        <PropertyRef Name="Customers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerContact_Contact">
+    <End Role="CustomerContact" Type="CustomerModel.Store.CustomerContact" Multiplicity="*" />
+    <End Role="Contact" Type="CustomerModel.Store.Contacts" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerContact">
+        <PropertyRef Name="Contacts_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CustomerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CustomerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="CustomerModel.Customer" />
+          <EntitySet Name="Contacts" EntityType="CustomerModel.Contact" />
+          <AssociationSet Name="CustomerContact" Association="CustomerModel.CustomerContact">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="FaxNumber" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="WebsiteUrl" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <NavigationProperty Name="Contacts" Relationship="CustomerModel.CustomerContact" FromRole="Customer" ToRole="Contact" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="20" Nullable="true" />
+          <Property Name="Email" Type="String" Nullable="true" MaxLength="100" />
+          <NavigationProperty Name="Customers" Relationship="CustomerModel.CustomerContact" FromRole="Contact" ToRole="Customer" />
+        </EntityType>
+        <Association Name="CustomerContact">
+          <End Type="CustomerModel.Customer" Role="Customer" Multiplicity="*" />
+          <End Type="CustomerModel.Contact" Role="Contact" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CustomerModelStoreContainer" CdmEntityContainer="CustomerEntities">
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(CustomerModel.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="WebsiteUrl" ColumnName="WebsiteUrl" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="IsTypeOf(CustomerModel.Contact)">
+        <MappingFragment StoreEntitySet="Contacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CustomerContact" TypeName="CustomerModel.CustomerContact" StoreEntitySet="CustomerContact">
+      <EndProperty Name="Customer">
+        <ScalarProperty Name="Id" ColumnName="Customers_Id" />
+      </EndProperty>
+      <EndProperty Name="Contact">
+        <ScalarProperty Name="Id" ColumnName="Contacts_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DefaultDatabaseSchema" Value="Customer" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
