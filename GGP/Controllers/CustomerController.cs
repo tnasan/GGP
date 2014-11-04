@@ -108,6 +108,7 @@ namespace GGP.Controllers
                                   where !existingContacts.Any(x => x.Name == contact.Name && x.TelephoneNumber == contact.TelephoneNumber && x.Email == contact.Email)
                                   select contact;
 
+                dbCustomer.Contacts.Clear();
                 dbCustomer.Contacts = existingContacts.Union(newContacts).ToList();
                 customerDB.SaveChanges();
 
