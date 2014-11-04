@@ -24,11 +24,11 @@
     </Key>
     <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TelephoneNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="FaxNumber" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="WebsiteUrl" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TelephoneNumber" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="FaxNumber" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="WebsiteUrl" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Contacts">
     <Key>
@@ -89,11 +89,11 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="TelephoneNumber" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="FaxNumber" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" />
-          <Property Name="WebsiteUrl" Type="String" Nullable="false" MaxLength="100" />
-          <Property Name="Address" Type="String" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="20" Nullable="true" />
+          <Property Name="FaxNumber" Type="String" MaxLength="20" Nullable="true" />
+          <Property Name="Email" Type="String" MaxLength="100" Nullable="true" />
+          <Property Name="WebsiteUrl" Type="String" MaxLength="100" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="true" />
           <NavigationProperty Name="Contacts" Relationship="CustomerModel.CustomerContact" FromRole="Customer" ToRole="Contact" />
         </EntityType>
         <EntityType Name="Contact">

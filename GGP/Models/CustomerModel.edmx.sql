@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/03/2014 19:31:18
--- Generated from EDMX file: C:\Users\tnasan\Source\Repos\GGP\GGP\Models\CustomerModel.edmx
+-- Date Created: 11/03/2014 20:57:37
+-- Generated from EDMX file: C:\Users\Thanasarn\Source\Repos\GGP\GGP\Models\CustomerModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,8 +17,11 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[Customer].[FK_CustomerContact]', 'F') IS NOT NULL
-    ALTER TABLE [Customer].[Contacts] DROP CONSTRAINT [FK_CustomerContact];
+IF OBJECT_ID(N'[Customer].[FK_CustomerContact_Customer]', 'F') IS NOT NULL
+    ALTER TABLE [Customer].[CustomerContact] DROP CONSTRAINT [FK_CustomerContact_Customer];
+GO
+IF OBJECT_ID(N'[Customer].[FK_CustomerContact_Contact]', 'F') IS NOT NULL
+    ALTER TABLE [Customer].[CustomerContact] DROP CONSTRAINT [FK_CustomerContact_Contact];
 GO
 
 -- --------------------------------------------------
@@ -31,6 +34,9 @@ GO
 IF OBJECT_ID(N'[Customer].[Contacts]', 'U') IS NOT NULL
     DROP TABLE [Customer].[Contacts];
 GO
+IF OBJECT_ID(N'[Customer].[CustomerContact]', 'U') IS NOT NULL
+    DROP TABLE [Customer].[CustomerContact];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -40,11 +46,11 @@ GO
 CREATE TABLE [Customer].[Customers] (
     [Id] bigint IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [TelephoneNumber] nvarchar(20)  NOT NULL,
-    [FaxNumber] nvarchar(20)  NOT NULL,
-    [Email] nvarchar(100)  NOT NULL,
-    [WebsiteUrl] nvarchar(100)  NOT NULL,
-    [Address] nvarchar(max)  NOT NULL
+    [TelephoneNumber] nvarchar(20)  NULL,
+    [FaxNumber] nvarchar(20)  NULL,
+    [Email] nvarchar(100)  NULL,
+    [WebsiteUrl] nvarchar(100)  NULL,
+    [Address] nvarchar(max)  NULL
 );
 GO
 
