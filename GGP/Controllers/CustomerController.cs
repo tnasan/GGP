@@ -9,10 +9,13 @@ namespace GGP.Controllers
 {
     public class CustomerController : Controller
     {
-        // GET: Customer
         public ActionResult Index()
         {
-            return View();
+            using (CustomerEntities customerDB = new CustomerEntities())
+            {
+                var customerList = customerDB.Customers.ToList();
+                return View(customerList);
+            }
         }
 
         public ActionResult Create()

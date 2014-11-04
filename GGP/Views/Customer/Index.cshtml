@@ -1,9 +1,41 @@
-﻿@{
+﻿@using GGP.Models
+@model IEnumerable<Customer>
+@{
     ViewBag.Title = "Customer";
 }
 
 <div class="row">
     <div class="col-md-4">
         <h2>Customer</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <a class="btn btn-default" href="@Url.Action("Create")"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>ชื่อลูกค้า</th>
+                    <th>โทร</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.TelephoneNumber</td>
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.Id })"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
