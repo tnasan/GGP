@@ -11,16 +11,10 @@ namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Contact
     {
-        public Contact()
-        {
-            this.Customers = new HashSet<Customer>();
-        }
-    
-        public long Id { get; set; }
+        public long CustomerId { get; set; }
         [Required]
         public string Name { get; set; }
         [DataType(DataType.PhoneNumber)]
@@ -28,6 +22,6 @@ namespace GGP.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     
-        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

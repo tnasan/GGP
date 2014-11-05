@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/03/2014 20:57:37
+-- Date Created: 11/05/2014 21:39:35
 -- Generated from EDMX file: C:\Users\Thanasarn\Source\Repos\GGP\GGP\Models\CustomerModel.edmx
 -- --------------------------------------------------
 
@@ -17,12 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[Customer].[FK_CustomerContact_Customer]', 'F') IS NOT NULL
-    ALTER TABLE [Customer].[CustomerContact] DROP CONSTRAINT [FK_CustomerContact_Customer];
-GO
-IF OBJECT_ID(N'[Customer].[FK_CustomerContact_Contact]', 'F') IS NOT NULL
-    ALTER TABLE [Customer].[CustomerContact] DROP CONSTRAINT [FK_CustomerContact_Contact];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -33,9 +27,6 @@ IF OBJECT_ID(N'[Customer].[Customers]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[Customer].[Contacts]', 'U') IS NOT NULL
     DROP TABLE [Customer].[Contacts];
-GO
-IF OBJECT_ID(N'[Customer].[CustomerContact]', 'U') IS NOT NULL
-    DROP TABLE [Customer].[CustomerContact];
 GO
 
 -- --------------------------------------------------
@@ -56,17 +47,10 @@ GO
 
 -- Creating table 'Contacts'
 CREATE TABLE [Customer].[Contacts] (
-    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [CustomerId] bigint  NOT NULL,
     [Name] nvarchar(100)  NOT NULL,
     [TelephoneNumber] nvarchar(20)  NULL,
     [Email] nvarchar(100)  NULL
-);
-GO
-
--- Creating table 'CustomerContact'
-CREATE TABLE [Customer].[CustomerContact] (
-    [Customers_Id] bigint  NOT NULL,
-    [Contacts_Id] bigint  NOT NULL
 );
 GO
 
@@ -80,44 +64,23 @@ ADD CONSTRAINT [PK_Customers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Contacts'
+-- Creating primary key on [CustomerId], [Name] in table 'Contacts'
 ALTER TABLE [Customer].[Contacts]
 ADD CONSTRAINT [PK_Contacts]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Customers_Id], [Contacts_Id] in table 'CustomerContact'
-ALTER TABLE [Customer].[CustomerContact]
-ADD CONSTRAINT [PK_CustomerContact]
-    PRIMARY KEY CLUSTERED ([Customers_Id], [Contacts_Id] ASC);
+    PRIMARY KEY CLUSTERED ([CustomerId], [Name] ASC);
 GO
 
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Customers_Id] in table 'CustomerContact'
-ALTER TABLE [Customer].[CustomerContact]
-ADD CONSTRAINT [FK_CustomerContact_Customer]
-    FOREIGN KEY ([Customers_Id])
+-- Creating foreign key on [CustomerId] in table 'Contacts'
+ALTER TABLE [Customer].[Contacts]
+ADD CONSTRAINT [FK_CustomerContact]
+    FOREIGN KEY ([CustomerId])
     REFERENCES [Customer].[Customers]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Contacts_Id] in table 'CustomerContact'
-ALTER TABLE [Customer].[CustomerContact]
-ADD CONSTRAINT [FK_CustomerContact_Contact]
-    FOREIGN KEY ([Contacts_Id])
-    REFERENCES [Customer].[Contacts]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CustomerContact_Contact'
-CREATE INDEX [IX_FK_CustomerContact_Contact]
-ON [Customer].[CustomerContact]
-    ([Contacts_Id]);
 GO
 
 -- --------------------------------------------------

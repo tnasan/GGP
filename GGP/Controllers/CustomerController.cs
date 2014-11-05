@@ -39,13 +39,6 @@ namespace GGP.Controllers
                         x.Email = x.Email.Trim();
                         return x;
                     });
-                    var existingContacts = (from contact in customer.Contacts
-                                            join dbContact in customerDB.Contacts on new { contact.Name, contact.TelephoneNumber, contact.Email } equals new { dbContact.Name, dbContact.TelephoneNumber, dbContact.Email }
-                                            select dbContact).ToList();
-                    var newContacts = from contact in customer.Contacts
-                                      where !existingContacts.Any(x => x.Name == contact.Name && x.TelephoneNumber == contact.TelephoneNumber && x.Email == contact.Email)
-                                      select contact;
-                    customer.Contacts = existingContacts.Union(newContacts).ToList();
                 }
                 customerDB.Customers.Add(customer);
                 customerDB.SaveChanges();
@@ -100,16 +93,8 @@ namespace GGP.Controllers
                 dbCustomer.Email = customer.Email;
                 dbCustomer.WebsiteUrl = customer.WebsiteUrl;
                 dbCustomer.Address = customer.Address;
-
-                var existingContacts = (from contact in customer.Contacts
-                                        join dbContact in customerDB.Contacts on new { contact.Name, contact.TelephoneNumber, contact.Email } equals new { dbContact.Name, dbContact.TelephoneNumber, dbContact.Email }
-                                        select dbContact).ToList();
-                var newContacts = from contact in customer.Contacts
-                                  where !existingContacts.Any(x => x.Name == contact.Name && x.TelephoneNumber == contact.TelephoneNumber && x.Email == contact.Email)
-                                  select contact;
-
                 dbCustomer.Contacts.Clear();
-                dbCustomer.Contacts = existingContacts.Union(newContacts).ToList();
+                dbCustomer.Contacts = customer.Contacts;
                 customerDB.SaveChanges();
 
                 return RedirectToAction("Index");

@@ -12,14 +12,14 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Customer
     {
         public Customer()
         {
             this.Contacts = new HashSet<Contact>();
         }
-    
+
         public long Id { get; set; }
         [Required]
         [DataType(DataType.Text)]
@@ -34,7 +34,7 @@ namespace GGP.Models
         public string WebsiteUrl { get; set; }
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-    
+
         public virtual ICollection<Contact> Contacts { get; set; }
     }
 }

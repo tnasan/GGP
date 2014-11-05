@@ -8,14 +8,9 @@
   <EntityContainer Name="CustomerModelStoreContainer">
     <EntitySet Name="Customers" EntityType="CustomerModel.Store.Customers" store:Type="Tables" Schema="Customer" />
     <EntitySet Name="Contacts" EntityType="CustomerModel.Store.Contacts" store:Type="Tables" Schema="Customer" />
-    <EntitySet Name="CustomerContact" EntityType="CustomerModel.Store.CustomerContact" store:Type="Tables" Schema="Customer" />
-    <AssociationSet Name="FK_CustomerContact_Customer" Association="CustomerModel.Store.FK_CustomerContact_Customer">
+    <AssociationSet Name="CustomerContact" Association="CustomerModel.Store.CustomerContact">
       <End Role="Customer" EntitySet="Customers" />
-      <End Role="CustomerContact" EntitySet="CustomerContact" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CustomerContact_Contact" Association="CustomerModel.Store.FK_CustomerContact_Contact">
       <End Role="Contact" EntitySet="Contacts" />
-      <End Role="CustomerContact" EntitySet="CustomerContact" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Customers">
@@ -32,42 +27,23 @@
   </EntityType>
   <EntityType Name="Contacts">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="CustomerId" />
+      <PropertyRef Name="Name" />
     </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
     <Property Name="TelephoneNumber" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="100" />
   </EntityType>
-  <EntityType Name="CustomerContact">
-    <Key>
-      <PropertyRef Name="Customers_Id" />
-      <PropertyRef Name="Contacts_Id" />
-    </Key>
-    <Property Name="Customers_Id" Type="bigint" Nullable="false" />
-    <Property Name="Contacts_Id" Type="bigint" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_CustomerContact_Customer">
+  <Association Name="CustomerContact">
     <End Role="Customer" Type="CustomerModel.Store.Customers" Multiplicity="1" />
-    <End Role="CustomerContact" Type="CustomerModel.Store.CustomerContact" Multiplicity="*" />
+    <End Role="Contact" Type="CustomerModel.Store.Contacts" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Customer">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="CustomerContact">
-        <PropertyRef Name="Customers_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CustomerContact_Contact">
-    <End Role="CustomerContact" Type="CustomerModel.Store.CustomerContact" Multiplicity="*" />
-    <End Role="Contact" Type="CustomerModel.Store.Contacts" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Contact">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CustomerContact">
-        <PropertyRef Name="Contacts_Id" />
+      <Dependent Role="Contact">
+        <PropertyRef Name="CustomerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -98,17 +74,26 @@
         </EntityType>
         <EntityType Name="Contact">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="Name" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="20" Nullable="true" />
           <Property Name="Email" Type="String" Nullable="true" MaxLength="100" />
-          <NavigationProperty Name="Customers" Relationship="CustomerModel.CustomerContact" FromRole="Contact" ToRole="Customer" />
+          <NavigationProperty Name="Customer" Relationship="CustomerModel.CustomerContact" FromRole="Contact" ToRole="Customer" />
         </EntityType>
         <Association Name="CustomerContact">
-          <End Type="CustomerModel.Customer" Role="Customer" Multiplicity="*" />
+          <End Type="CustomerModel.Customer" Role="Customer" Multiplicity="1" />
           <End Type="CustomerModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -132,21 +117,13 @@
     <EntitySetMapping Name="Contacts">
       <EntityTypeMapping TypeName="IsTypeOf(CustomerModel.Contact)">
         <MappingFragment StoreEntitySet="Contacts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
           <ScalarProperty Name="Email" ColumnName="Email" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="CustomerContact" TypeName="CustomerModel.CustomerContact" StoreEntitySet="CustomerContact">
-      <EndProperty Name="Customer">
-        <ScalarProperty Name="Id" ColumnName="Customers_Id" />
-      </EndProperty>
-      <EndProperty Name="Contact">
-        <ScalarProperty Name="Id" ColumnName="Contacts_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
