@@ -13,7 +13,7 @@ namespace GGP.Controllers
         {
             using (CustomerEntities customerDB = new CustomerEntities())
             {
-                var customerList = customerDB.Customers.ToList();
+                var customerList = customerDB.Customers.Include("Contacts").ToList();
                 return View(customerList);
             }
         }
