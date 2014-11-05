@@ -63,7 +63,7 @@
                     <input type="tel" class="form-control" placeholder="โทร" data-bind="textInput: telephoneNumber, attr: { name: 'Contacts[' + $index() + '].TelephoneNumber' }">
                 </div>
                 <div class="col-md-2">
-                    <input type="tel" class="form-control" placeholder="อีเมล" data-bind="textInput: email, attr: { name: 'Contacts[' + $index() + '].Email' }">
+                    <input type="email" class="form-control" placeholder="อีเมล" data-bind="textInput: email, attr: { name: 'Contacts[' + $index() + '].Email' }">
                 </div>
                 <div class="col-md-1">
                     <button type="button" class="btn btn-default" data-bind="enable: $root.contacts().length > 1, click: $root.removeContact"><span class="glyphicon glyphicon-trash"></span></button>
