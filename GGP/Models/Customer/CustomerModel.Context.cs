@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GGP.Models
+namespace GGP.Models.Customer
 {
     using System;
     using System.Data.Entity;
@@ -25,7 +25,7 @@ namespace GGP.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
     }
 }

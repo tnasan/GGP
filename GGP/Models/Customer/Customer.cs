@@ -7,22 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GGP.Models
+namespace GGP.Models.Customer
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Customer
     {
         public Customer()
         {
             this.Contacts = new HashSet<Contact>();
         }
-
+    
         public long Id { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
+        [Required, DataType(DataType.Text), MaxLength(100)]
         public string Name { get; set; }
         [DataType(DataType.PhoneNumber)]
         public string TelephoneNumber { get; set; }
@@ -34,7 +33,7 @@ namespace GGP.Models
         public string WebsiteUrl { get; set; }
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-
+    
         public virtual ICollection<Contact> Contacts { get; set; }
     }
 }

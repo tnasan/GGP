@@ -1,8 +1,9 @@
-﻿@model GGP.Models.Customer
+﻿@using GGP.Models.Customer
+@model Customer
 @{
     ViewBag.Title = "Create Customer";
 }
-<h2>เพิ่มลูกค้า</h2>
+<h2>แก้ไขลูกค้า</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -89,7 +90,7 @@
             var self = this;
 
             self.contacts = ko.observableArray([
-                    @Html.Raw(String.Join(",", Model.Contacts.Union(new GGP.Models.Contact[] { new GGP.Models.Contact() }).Select(x => "{ name: \"" + x.Name + "\", telephoneNumber: \"" + x.TelephoneNumber + "\", email: \"" + x.Email + "\" }")))
+                    @Html.Raw(String.Join(",", Model.Contacts.Union(new Contact[] { new Contact() }).Select(x => "{ name: \"" + x.Name + "\", telephoneNumber: \"" + x.TelephoneNumber + "\", email: \"" + x.Email + "\" }")))
             ]);
 
             self.validate = function () {

@@ -1,19 +1,22 @@
-﻿@using GGP.Models.Customer
-@model Customer
+﻿@using GGP.Models.Supplier
+@model Supplier
+
 @{
-    ViewBag.Title = "Create Customer";
+    ViewBag.Title = "Edit Supplier";
 }
-<h2>เพิ่มลูกค้า</h2>
+
+<h2>แก้ไข Supplier</h2>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Customer</h4>
+        <h4>Supplier</h4>
         <hr>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, "ชื่อ", htmlAttributes: new { @class = "control-label col-md-1" })
+            @Html.LabelFor(model => model.Name, "ชื่อ", new { @class = "control-label col-md-1" })
             <div class="col-md-4">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -50,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Address, "ที่อยู่", htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Address, new { @class = "form-control" })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +76,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
-                <button type="submit" class="btn btn-default">เพิ่มลูกค้า</button>
+                <input type="submit" value="แก้ไข Supplier" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -81,12 +84,11 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-@section Scripts
-{
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/knockout")
     <script>
-        function CreateCustomerViewModel() {
+        function CreateSupplierViewModel() {
             var self = this;
 
             self.contacts = ko.observableArray([
@@ -122,6 +124,6 @@
             }
         }
 
-        ko.applyBindings(new CreateCustomerViewModel());
+        ko.applyBindings(new CreateSupplierViewModel());
     </script>
 }

@@ -131,28 +131,54 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Contact.cs">
+    <Compile Include="Models\Customer\Contact.cs">
       <DependentUpon>CustomerModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Customer.cs">
+    <Compile Include="Models\Customer\Customer.cs">
       <DependentUpon>CustomerModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerModel.Context.cs">
+    <Compile Include="Models\Customer\CustomerModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomerModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerModel.cs">
+    <Compile Include="Models\Customer\CustomerModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomerModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerModel.Designer.cs">
+    <Compile Include="Models\Customer\CustomerModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomerModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Supplier\Contact.cs">
+      <DependentUpon>SupplierModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier\Supplier.cs">
+      <DependentUpon>SupplierModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier\SupplierModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplierModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier\SupplierModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplierModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier\SupplierModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SupplierModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -168,27 +194,48 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <EntityDeploy Include="Models\CustomerModel.edmx">
+    <EntityDeploy Include="Models\Supplier\SupplierModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SupplierModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Supplier\SupplierModel.edmx.diagram">
+      <DependentUpon>SupplierModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Supplier\SupplierModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SupplierModel.Context.cs</LastGenOutput>
+      <DependentUpon>SupplierModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Supplier\SupplierModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SupplierModel.cs</LastGenOutput>
+      <DependentUpon>SupplierModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Customer\CustomerModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CustomerModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\CustomerModel.edmx.diagram">
-      <DependentUpon>CustomerModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\CustomerModel.Context.tt">
+    <Content Include="Models\Customer\CustomerModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomerModel.edmx</DependentUpon>
       <LastGenOutput>CustomerModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Customer\CustomerModel.edmx.diagram">
       <DependentUpon>CustomerModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\CustomerModel.tt">
+    <Content Include="Models\Customer\CustomerModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CustomerModel.cs</LastGenOutput>
       <DependentUpon>CustomerModel.edmx</DependentUpon>
+      <LastGenOutput>CustomerModel.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\Gaoroon.pubxml" />
     <None Include="Properties\PublishProfiles\Local IIS.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Models\CustomerModel.edmx.sql" />
+    <Content Include="Models\Supplier\SupplierModel.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -215,6 +262,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -226,6 +274,8 @@
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
