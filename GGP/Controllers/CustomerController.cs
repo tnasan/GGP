@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using GGP.Models.Customer;
+using GGP.Models;
 
 namespace GGP.Controllers
 {
@@ -11,9 +11,9 @@ namespace GGP.Controllers
     {
         public ActionResult Index()
         {
-            using (CustomerEntities customerDB = new CustomerEntities())
+            using (GGPDBEntities customerDB = new GGPDBEntities())
             {
-                var customerList = customerDB.Customers.Include("Contacts").ToList();
+                var customerList = customerDB.Customers.Include("CustomerContacts").ToList();
                 return View(customerList);
             }
         }
@@ -27,12 +27,12 @@ namespace GGP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
-            using (CustomerEntities customerDB = new CustomerEntities())
+            using (GGPDBEntities customerDB = new GGPDBEntities())
             {
-                if (customer.Contacts.Any())
+                if (customer.CustomerContacts.Any())
                 {
-                    customer.Contacts = customer.Contacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
-                    customer.Contacts.Select(x =>
+                    customer.CustomerContacts = customer.CustomerContacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
+                    customer.CustomerContacts.Select(x =>
                     {
                         x.Name = x.Name.Trim();
                         x.TelephoneNumber = x.TelephoneNumber.Trim();
@@ -54,9 +54,9 @@ namespace GGP.Controllers
                 return RedirectToAction("Index");
             }
 
-            using (CustomerEntities customerDB = new CustomerEntities())
+            using (GGPDBEntities customerDB = new GGPDBEntities())
             {
-                Customer dbCustomer = customerDB.Customers.Include("Contacts").Single(x => x.Id == id);
+                Customer dbCustomer = customerDB.Customers.Include("CustomerContacts").Single(x => x.Id == id);
                 if (dbCustomer == null)
                 {
                     return RedirectToAction("Index");
@@ -70,10 +70,10 @@ namespace GGP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Customer customer)
         {
-            using (CustomerEntities customerDB = new CustomerEntities())
+            using (GGPDBEntities customerDB = new GGPDBEntities())
             {
-                customer.Contacts = customer.Contacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
-                customer.Contacts.Select(x =>
+                customer.CustomerContacts = customer.CustomerContacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
+                customer.CustomerContacts.Select(x =>
                 {
                     x.Name = x.Name.Trim();
                     x.TelephoneNumber = x.TelephoneNumber.Trim();
@@ -93,8 +93,8 @@ namespace GGP.Controllers
                 dbCustomer.Email = customer.Email;
                 dbCustomer.WebsiteUrl = customer.WebsiteUrl;
                 dbCustomer.Address = customer.Address;
-                dbCustomer.Contacts.Clear();
-                dbCustomer.Contacts = customer.Contacts;
+                dbCustomer.CustomerContacts.Clear();
+                dbCustomer.CustomerContacts = customer.CustomerContacts;
                 customerDB.SaveChanges();
 
                 return RedirectToAction("Index");

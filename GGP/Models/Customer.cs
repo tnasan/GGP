@@ -7,33 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GGP.Models.Supplier
+namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
-    public partial class Supplier
+    public partial class Customer
     {
-        public Supplier()
+        public Customer()
         {
-            this.Contacts = new HashSet<Contact>();
+            this.CustomerContacts = new HashSet<CustomerContact>();
         }
     
         public long Id { get; set; }
-        [Required, DataType(DataType.Text)]
         public string Name { get; set; }
-        [DataType(DataType.PhoneNumber)]
         public string TelephoneNumber { get; set; }
-        [DataType(DataType.PhoneNumber)]
         public string FaxNumber { get; set; }
-        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [DataType(DataType.Url)]
         public string WebsiteUrl { get; set; }
-        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
     
-        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual ICollection<CustomerContact> CustomerContacts { get; set; }
     }
 }

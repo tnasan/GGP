@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GGP.Models.Customer
+namespace GGP.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CustomerEntities : DbContext
+    public partial class GGPDBEntities : DbContext
     {
-        public CustomerEntities()
-            : base("name=CustomerEntities")
+        public GGPDBEntities()
+            : base("name=GGPDBEntities")
         {
         }
     
@@ -25,7 +25,10 @@ namespace GGP.Models.Customer
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerContact> CustomerContacts { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
     }
 }

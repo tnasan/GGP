@@ -1,4 +1,4 @@
-﻿@using GGP.Models.Customer
+﻿@using GGP.Models
 @model Customer
 @{
     ViewBag.Title = "Create Customer";
@@ -58,13 +58,13 @@
             <div class="form-group">
                 <label class="control-label col-md-1">ผู้ติดต่อ <span data-bind="text: $index() + 1"></span></label>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" placeholder="ชื่อ" data-bind="textInput: name, attr: { id: 'Contacts_' + $index() + '_Name', name: 'Contacts[' +  $index() + '].Name', required: $index() + 1 != $root.contacts().length }, event: { keyup: $root.addContact }">
+                    <input type="text" class="form-control" placeholder="ชื่อ" data-bind="textInput: name, attr: { id: 'Contacts_' + $index() + '_Name', name: 'CustomerContacts[' +  $index() + '].Name', required: $index() + 1 != $root.contacts().length }, event: { keyup: $root.addContact }">
                 </div>
                 <div class="col-md-2">
-                    <input type="tel" class="form-control" placeholder="โทร" data-bind="textInput: telephoneNumber, attr: { name: 'Contacts[' + $index() + '].TelephoneNumber' }">
+                    <input type="tel" class="form-control" placeholder="โทร" data-bind="textInput: telephoneNumber, attr: { name: 'CustomerContacts[' + $index() + '].TelephoneNumber' }">
                 </div>
                 <div class="col-md-2">
-                    <input type="email" class="form-control" placeholder="อีเมล" data-bind="textInput: email, attr: { name: 'Contacts[' + $index() + '].Email' }">
+                    <input type="email" class="form-control" placeholder="อีเมล" data-bind="textInput: email, attr: { name: 'CustomerContacts[' + $index() + '].Email' }">
                 </div>
                 <div class="col-md-1">
                     <button type="button" class="btn btn-default" data-bind="enable: $root.contacts().length > 1, click: $root.removeContact"><span class="glyphicon glyphicon-trash"></span></button>
@@ -90,7 +90,7 @@
             var self = this;
 
             self.contacts = ko.observableArray([
-                    @Html.Raw(String.Join(",", Model.Contacts.Union(new Contact[] { new Contact() }).Select(x => "{ name: \"" + x.Name + "\", telephoneNumber: \"" + x.TelephoneNumber + "\", email: \"" + x.Email + "\" }")))
+                    @Html.Raw(String.Join(",", Model.CustomerContacts.Union(new CustomerContact[] { new CustomerContact() }).Select(x => "{ name: \"" + x.Name + "\", telephoneNumber: \"" + x.TelephoneNumber + "\", email: \"" + x.Email + "\" }")))
             ]);
 
             self.validate = function () {

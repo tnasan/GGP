@@ -1,4 +1,4 @@
-﻿@using GGP.Models.Supplier
+﻿@using GGP.Models
 @model IEnumerable<Supplier>
 @{
     ViewBag.Title = "Supplier";
@@ -36,7 +36,7 @@
                         <td>@item.FaxNumber</td>
                         <td>
                             <ul class="list-unstyled">
-                                @foreach (var contact in item.Contacts)
+                                @foreach (var contact in item.SupplierContacts)
                                 {
                                     <li>@contact.Name <span class="label label-primary">@contact.TelephoneNumber</span> <span class="label label-success">@contact.Email</span></li>
                                 }

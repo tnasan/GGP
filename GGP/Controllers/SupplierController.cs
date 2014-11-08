@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using GGP.Models.Supplier;
+using GGP.Models;
 
 namespace GGP.Controllers
 {
@@ -12,9 +12,9 @@ namespace GGP.Controllers
         // GET: Supplier
         public ActionResult Index()
         {
-            using (SupplierEntities supplierDB = new SupplierEntities())
+            using (GGPDBEntities supplierDB = new GGPDBEntities())
             {
-                return View(supplierDB.Suppliers.Include("Contacts").ToList());
+                return View(supplierDB.Suppliers.Include("SupplierContacts").ToList());
             }
         }
 
@@ -27,12 +27,12 @@ namespace GGP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Supplier supplier)
         {
-            using (SupplierEntities supplierDB = new SupplierEntities())
+            using (GGPDBEntities supplierDB = new GGPDBEntities())
             {
-                if (supplier.Contacts.Any())
+                if (supplier.SupplierContacts.Any())
                 {
-                    supplier.Contacts = supplier.Contacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
-                    supplier.Contacts.Select(x =>
+                    supplier.SupplierContacts = supplier.SupplierContacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
+                    supplier.SupplierContacts.Select(x =>
                     {
                         x.Name = x.Name.Trim();
                         x.TelephoneNumber = x.TelephoneNumber.Trim();
@@ -54,9 +54,9 @@ namespace GGP.Controllers
                 return RedirectToAction("Index");
             }
 
-            using (SupplierEntities supplierDB = new SupplierEntities())
+            using (GGPDBEntities supplierDB = new GGPDBEntities())
             {
-                Supplier supplier = supplierDB.Suppliers.Include("Contacts").SingleOrDefault(x => x.Id == id);
+                Supplier supplier = supplierDB.Suppliers.Include("SupplierContacts").SingleOrDefault(x => x.Id == id);
 
                 if (supplier == null)
                 {
@@ -71,10 +71,10 @@ namespace GGP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Supplier supplier)
         {
-            using (SupplierEntities supplierDB = new SupplierEntities())
+            using (GGPDBEntities supplierDB = new GGPDBEntities())
             {
-                supplier.Contacts = supplier.Contacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
-                supplier.Contacts.Select(x =>
+                supplier.SupplierContacts = supplier.SupplierContacts.Where(x => !(String.IsNullOrEmpty(x.Name) || String.IsNullOrEmpty(x.Name.Trim()))).ToList();
+                supplier.SupplierContacts.Select(x =>
                 {
                     x.Name = x.Name.Trim();
                     x.TelephoneNumber = x.TelephoneNumber.Trim();
@@ -94,8 +94,8 @@ namespace GGP.Controllers
                 dbSupplier.Email = supplier.Email;
                 dbSupplier.WebsiteUrl = supplier.WebsiteUrl;
                 dbSupplier.Address = supplier.Address;
-                dbSupplier.Contacts.Clear();
-                dbSupplier.Contacts = supplier.Contacts;
+                dbSupplier.SupplierContacts.Clear();
+                dbSupplier.SupplierContacts = supplier.SupplierContacts;
                 supplierDB.SaveChanges();
 
                 return RedirectToAction("Index");

@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GGP.Models.Supplier
+namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Contact
+    public partial class CustomerContact
     {
-        public long SupplierId { get; set; }
+        public long CustomerId { get; set; }
         public string Name { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
     
-        public virtual Supplier Supplier { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }
