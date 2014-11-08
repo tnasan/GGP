@@ -1,0 +1,60 @@
+﻿@model IEnumerable<GGP.Models.Company>
+
+@{
+    ViewBag.Title = "บริษัท";
+}
+
+<h2>บริษัท</h2>
+
+<p>
+    <a class="btn btn-default" href="@Url.Action("Create")"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ชื่อ
+        </th>
+        <th>
+            โทร
+        </th>
+        <th>
+            แฟกซ์
+        </th>
+        <th>
+            เวบไซต์
+        </th>
+        <th>
+            ที่อยู่
+        </th>
+        <th>
+            Remark
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelephoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FaxNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WebsiteUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.Id })"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+        </td>
+    </tr>
+}
+</table>
