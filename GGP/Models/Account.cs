@@ -25,6 +25,8 @@ namespace GGP.Models
         [MaxLength(50)]
         [Remote("CheckUsernameExist", "Account", HttpMethod = "POST", ErrorMessage = "ºÑ­ªÕ¼Ùéãªé«éÓ")]
         public string Username { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public string Salt { get; set; }
     

@@ -38,15 +38,13 @@ namespace GGP.Controllers
                 return View(account);
             }
 
-            // Generate Salt
-            byte[] salt = GetSalt();
-            // Generate Hash Password
-            byte[] password = GetHashPassword(account.Password, salt);
+            // Get Password & Salt
+            Tuple<string, string> passwordAndSalt = EncryptionHelper.GetHashPassword(account.Password);
 
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                account.Password = String.Join("", password.Select(x => x.ToString("X2")));
-                account.Salt = String.Join("", salt.Select(x => x.ToString("X2")));
+                account.Password = passwordAndSalt.Item1;
+                account.Salt = passwordAndSalt.Item2;
                 db.Accounts.Add(account);
                 db.SaveChanges();
 
@@ -85,15 +83,14 @@ namespace GGP.Controllers
                 return View(account);
             }
 
+            Tuple<string, string> passwordAndSalt = EncryptionHelper.GetHashPassword(account.Password);
+
             using (GGPDBEntities db = new GGPDBEntities())
             {
                 Account dbAccount = db.Accounts.Find(account.Username);
 
-                byte[] salt = GetSalt();
-                byte[] password = GetHashPassword(account.Password, salt);
-
-                dbAccount.Password = String.Join("", password.Select(x => x.ToString("X2")));
-                dbAccount.Salt = String.Join("", salt.Select(x => x.ToString("X2")));
+                dbAccount.Password = passwordAndSalt.Item1;
+                dbAccount.Salt = passwordAndSalt.Item2;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -109,32 +106,6 @@ namespace GGP.Controllers
 
                 return Json(account == null);
             }
-        }
-
-        private byte[] ConvertStringToByteArray(string str)
-        {
-            byte[] result = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, result, 0, result.Length);
-
-            return result;
-        }
-
-        private byte[] GetSalt()
-        {
-            byte[] salt = new byte[64];
-
-            RNGCryptoServiceProvider rngCrypto = new RNGCryptoServiceProvider();
-            rngCrypto.GetBytes(salt);
-
-            return salt;
-        }
-
-        private byte[] GetHashPassword(string password, byte[] salt)
-        {
-            SHA512 sha512 = new SHA512Managed();
-            byte[] hashPassword = sha512.ComputeHash(salt.Union(ConvertStringToByteArray(password)).ToArray());
-
-            return hashPassword;
         }
     }
 }
