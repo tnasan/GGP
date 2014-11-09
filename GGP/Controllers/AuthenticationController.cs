@@ -30,6 +30,7 @@ namespace GGP.Controllers
                 }
                 else
                 {
+                    ModelState.AddModelError("", "บัญชีผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
                     return View(account);
                 }
             }
