@@ -12,6 +12,9 @@
         <EntityTypeShape EntityType="GGPDBModel.SupplierContact" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <AssociationConnector Association="GGPDBModel.FK_CustomerContact" ManuallyRouted="false" />
         <AssociationConnector Association="GGPDBModel.FK_SupplierContact" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GGPDBModel.Account" Width="1.5" PointX="5.375" PointY="5" />
+        <EntityTypeShape EntityType="GGPDBModel.Employee" Width="1.5" PointX="7.625" PointY="4.875" />
+        <AssociationConnector Association="GGPDBModel.EmployeeAccount" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

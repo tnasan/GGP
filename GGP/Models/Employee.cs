@@ -12,14 +12,18 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Company
+    public partial class Employee
     {
+        public Employee()
+        {
+            this.Accounts = new HashSet<Account>();
+        }
+    
         public long Id { get; set; }
         public string Name { get; set; }
         public string TelephoneNumber { get; set; }
-        public string FaxNumber { get; set; }
-        public string WebsiteUrl { get; set; }
-        public string Address { get; set; }
-        public string Remark { get; set; }
+        public string Email { get; set; }
+    
+        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

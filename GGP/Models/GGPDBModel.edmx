@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GGPDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GGPDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,6 +27,14 @@
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Salt" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
@@ -38,6 +46,23 @@
           <Property Name="WebsiteUrl" Type="nvarchar" MaxLength="100" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeAccount">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="AccountUsername" />
+          </Key>
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="AccountUsername" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -73,6 +98,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeAccount_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="EmployeeAccount" Type="Self.EmployeeAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Username" />
+            </Principal>
+            <Dependent Role="EmployeeAccount">
+              <PropertyRef Name="AccountUsername" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeAccount_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeAccount" Type="Self.EmployeeAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeAccount">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SupplierContact">
           <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
           <End Role="SupplierContact" Type="Self.SupplierContact" Multiplicity="*" />
@@ -88,20 +137,30 @@
         <EntityContainer Name="GGPDBModelStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="Customer" store:Type="Tables" />
           <EntitySet Name="CustomerContact" EntityType="Self.CustomerContact" Schema="Customer" store:Type="Tables" />
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeAccount" EntityType="Self.EmployeeAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
           <AssociationSet Name="FK_CustomerContact" Association="Self.FK_CustomerContact">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerContact" EntitySet="CustomerContact" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeAccount_Account" Association="Self.FK_EmployeeAccount_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="EmployeeAccount" EntitySet="EmployeeAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeAccount_Employee" Association="Self.FK_EmployeeAccount_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeAccount" EntitySet="EmployeeAccount" />
+          </AssociationSet>
           <AssociationSet Name="FK_SupplierContact" Association="Self.FK_SupplierContact">
             <End Role="Supplier" EntitySet="Supplier" />
             <End Role="SupplierContact" EntitySet="SupplierContact" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GGPDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -203,7 +262,36 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierContact" EntitySet="SupplierContacts" />
           </AssociationSet>
+          <EntitySet Name="Accounts" EntityType="GGPDBModel.Account" />
+          <EntitySet Name="Employees" EntityType="GGPDBModel.Employee" />
+          <AssociationSet Name="EmployeeAccount" Association="GGPDBModel.EmployeeAccount">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Salt" Type="String" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="GGPDBModel.EmployeeAccount" FromRole="Account" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TelephoneNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Accounts" Relationship="GGPDBModel.EmployeeAccount" FromRole="Employee" ToRole="Account" />
+        </EntityType>
+        <Association Name="EmployeeAccount">
+          <End Type="GGPDBModel.Account" Role="Account" Multiplicity="*" />
+          <End Type="GGPDBModel.Employee" Role="Employee" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -269,6 +357,33 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="GGPDBModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="GGPDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EmployeeAccount" TypeName="GGPDBModel.EmployeeAccount" StoreEntitySet="EmployeeAccount">
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+            <EndProperty Name="Account">
+              <ScalarProperty Name="Username" ColumnName="AccountUsername" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

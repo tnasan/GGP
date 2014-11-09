@@ -1,0 +1,43 @@
+﻿@model IEnumerable<GGP.Models.Account>
+
+@{
+    ViewBag.Title = "รายชื่อบัญชีผู้ใช้";
+}
+
+<h2>รายชื่อบัญชีผู้ใช้</h2>
+
+<p>
+    <a class="btn btn-default" href="@Url.Action("Create")"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ชื่อ - นามสกุล
+        </th>
+        <th>
+            ชื่อผู้ใช้
+        </th>
+        <th>
+            อีเมล
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @(item.Employees.Any() ? Html.DisplayFor(modelItem => item.Employees.First().Name) : Html.Raw("ไม่มีข้อมูล"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @(item.Employees.Any() ? Html.DisplayTextFor(modelItem => item.Employees.First().Email) : Html.Raw("ไม่มีข้อมูล"))
+            </td>
+            <td>
+                <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.Username })"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+            </td>
+        </tr>
+    }
+</table>

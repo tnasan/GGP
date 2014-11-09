@@ -30,5 +30,7 @@ namespace GGP.Models
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
     }
 }
