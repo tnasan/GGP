@@ -1,0 +1,17 @@
+﻿<ul class="nav navbar-nav navbar-right">
+    @if (AccountHelper.IsAuthenticated)
+    {
+        <li>
+            <span class="navbar-text">ยินดีต้อนรับ @AccountHelper.CurrentUsername</span>
+        </li>
+        <li>
+            @Html.ActionLink("ออกจากระบบ", "Logout", "Authentication")
+        </li>
+    }
+    else
+    {
+        <li>
+            @Html.ActionLink("เข้าสู่ระบบ", "Login", "Authentication")
+        </li>
+    }
+</ul>

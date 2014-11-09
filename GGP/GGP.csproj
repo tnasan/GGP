@@ -124,6 +124,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AccountHelper.cs" />
+    <Compile Include="App_Start\AuthorizeAttribute.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\EncryptionHelper.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -212,6 +214,7 @@
       <DependentUpon>GGPDBModel.edmx</DependentUpon>
       <LastGenOutput>GGPDBModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\Gaoroon Web Deply.pubxml" />
     <None Include="Properties\PublishProfiles\Gaoroon.pubxml" />
     <None Include="Properties\PublishProfiles\Local IIS.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -266,6 +269,7 @@
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Authentication\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -276,6 +280,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
