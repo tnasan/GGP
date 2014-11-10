@@ -47,15 +47,6 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Email" Type="nchar" MaxLength="10" Nullable="false" />
-        </EntityType>
         <EntityType Name="EmployeeAccount">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -63,6 +54,55 @@
           </Key>
           <Property Name="EmployeeId" Type="bigint" Nullable="false" />
           <Property Name="AccountUsername" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdditionalDocument">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="TemporaryLivingAllowance" Type="bit" Nullable="false" />
+          <Property Name="Passport" Type="bit" Nullable="false" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassportIssueDate" Type="date" />
+          <Property Name="PassportExpiredDate" Type="date" />
+          <Property Name="VISA" Type="bit" Nullable="false" />
+          <Property Name="VISANumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="VISAExpiredDate" Type="date" />
+          <Property Name="NationalityVerification" Type="bit" Nullable="false" />
+          <Property Name="WorkPermit" Type="bit" Nullable="false" />
+          <Property Name="WorkPermitNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkPermitExpiredDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Alias" Type="nvarchar" MaxLength="50" />
+          <Property Name="NationalIdentificationNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nchar" MaxLength="10" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="StartWorkingDate" Type="date" />
+          <Property Name="WorkingStatusId" Type="int" Nullable="false" />
+          <Property Name="NationalityId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkingStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -86,6 +126,18 @@
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <Association Name="FK_AdditionalDocument_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="AdditionalDocument" Type="Self.AdditionalDocument" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalDocument">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CustomerContact">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
           <End Role="CustomerContact" Type="Self.CustomerContact" Multiplicity="*" />
@@ -95,6 +147,30 @@
             </Principal>
             <Dependent Role="CustomerContact">
               <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Nationality">
+          <End Role="Nationality" Type="Self.Nationality" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="NationalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_WorkingStatus">
+          <End Role="WorkingStatus" Type="Self.WorkingStatus" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkingStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="WorkingStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -139,13 +215,28 @@
           <EntitySet Name="CustomerContact" EntityType="Self.CustomerContact" Schema="Customer" store:Type="Tables" />
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeAccount" EntityType="Self.EmployeeAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdditionalDocument" EntityType="Self.AdditionalDocument" Schema="Employee" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="Employee" store:Type="Tables" />
+          <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="Employee" store:Type="Tables" />
+          <EntitySet Name="WorkingStatus" EntityType="Self.WorkingStatus" Schema="Employee" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
+          <AssociationSet Name="FK_AdditionalDocument_Employee" Association="Self.FK_AdditionalDocument_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="AdditionalDocument" EntitySet="AdditionalDocument" />
+          </AssociationSet>
           <AssociationSet Name="FK_CustomerContact" Association="Self.FK_CustomerContact">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="CustomerContact" EntitySet="CustomerContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Nationality" Association="Self.FK_Employee_Nationality">
+            <End Role="Nationality" EntitySet="Nationality" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_WorkingStatus" Association="Self.FK_Employee_WorkingStatus">
+            <End Role="WorkingStatus" EntitySet="WorkingStatus" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_EmployeeAccount_Account" Association="Self.FK_EmployeeAccount_Account">
             <End Role="Account" EntitySet="Account" />
@@ -263,36 +354,133 @@
             <End Role="SupplierContact" EntitySet="SupplierContacts" />
           </AssociationSet>
           <EntitySet Name="Accounts" EntityType="GGPDBModel.Account" />
+          <EntitySet Name="AdditionalDocuments" EntityType="GGPDBModel.AdditionalDocument" />
+          <EntitySet Name="Nationalities" EntityType="GGPDBModel.Nationality" />
+          <EntitySet Name="WorkingStatus" EntityType="GGPDBModel.WorkingStatus" />
           <EntitySet Name="Employees" EntityType="GGPDBModel.Employee" />
+          <AssociationSet Name="FK_AdditionalDocument_Employee" Association="GGPDBModel.FK_AdditionalDocument_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="AdditionalDocument" EntitySet="AdditionalDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Nationality" Association="GGPDBModel.FK_Employee_Nationality">
+            <End Role="Nationality" EntitySet="Nationalities" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_WorkingStatus" Association="GGPDBModel.FK_Employee_WorkingStatus">
+            <End Role="WorkingStatu" EntitySet="WorkingStatus" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
           <AssociationSet Name="EmployeeAccount" Association="GGPDBModel.EmployeeAccount">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="Username" />
           </Key>
           <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" />
-          <Property Name="Salt" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="Salt" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Employees" Relationship="GGPDBModel.EmployeeAccount" FromRole="Account" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="AdditionalDocument">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
+          <Property Name="TemporaryLivingAllowance" Type="Boolean" Nullable="false" />
+          <Property Name="Passport" Type="Boolean" Nullable="false" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassportIssueDate" Type="DateTime" Precision="0" />
+          <Property Name="PassportExpiredDate" Type="DateTime" Precision="0" />
+          <Property Name="VISA" Type="Boolean" Nullable="false" />
+          <Property Name="VISANumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VISAExpiredDate" Type="DateTime" Precision="0" />
+          <Property Name="NationalityVerification" Type="Boolean" Nullable="false" />
+          <Property Name="WorkPermit" Type="Boolean" Nullable="false" />
+          <Property Name="WorkPermitNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPermitExpiredDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="GGPDBModel.FK_AdditionalDocument_Employee" FromRole="AdditionalDocument" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="GGPDBModel.FK_Employee_Nationality" FromRole="Nationality" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="WorkingStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="GGPDBModel.FK_Employee_WorkingStatus" FromRole="WorkingStatu" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TelephoneNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Firstname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NationalIdentificationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="StartWorkingDate" Type="DateTime" Precision="0" />
+          <Property Name="WorkingStatusId" Type="Int32" Nullable="false" />
+          <Property Name="NationalityId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AdditionalDocument" Relationship="GGPDBModel.FK_AdditionalDocument_Employee" FromRole="Employee" ToRole="AdditionalDocument" />
+          <NavigationProperty Name="Nationality" Relationship="GGPDBModel.FK_Employee_Nationality" FromRole="Employee" ToRole="Nationality" />
+          <NavigationProperty Name="WorkingStatu" Relationship="GGPDBModel.FK_Employee_WorkingStatus" FromRole="Employee" ToRole="WorkingStatu" />
           <NavigationProperty Name="Accounts" Relationship="GGPDBModel.EmployeeAccount" FromRole="Employee" ToRole="Account" />
         </EntityType>
+        <Association Name="FK_AdditionalDocument_Employee">
+          <End Type="GGPDBModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="GGPDBModel.AdditionalDocument" Role="AdditionalDocument" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalDocument">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Nationality">
+          <End Type="GGPDBModel.Nationality" Role="Nationality" Multiplicity="1" />
+          <End Type="GGPDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="NationalityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_WorkingStatus">
+          <End Type="GGPDBModel.WorkingStatus" Role="WorkingStatu" Multiplicity="1" />
+          <End Type="GGPDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkingStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="WorkingStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="EmployeeAccount">
           <End Type="GGPDBModel.Account" Role="Account" Multiplicity="*" />
           <End Type="GGPDBModel.Employee" Role="Employee" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -366,12 +554,55 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AdditionalDocuments">
+            <EntityTypeMapping TypeName="GGPDBModel.AdditionalDocument">
+              <MappingFragment StoreEntitySet="AdditionalDocument">
+                <ScalarProperty Name="WorkPermitExpiredDate" ColumnName="WorkPermitExpiredDate" />
+                <ScalarProperty Name="WorkPermitNumber" ColumnName="WorkPermitNumber" />
+                <ScalarProperty Name="WorkPermit" ColumnName="WorkPermit" />
+                <ScalarProperty Name="NationalityVerification" ColumnName="NationalityVerification" />
+                <ScalarProperty Name="VISAExpiredDate" ColumnName="VISAExpiredDate" />
+                <ScalarProperty Name="VISANumber" ColumnName="VISANumber" />
+                <ScalarProperty Name="VISA" ColumnName="VISA" />
+                <ScalarProperty Name="PassportExpiredDate" ColumnName="PassportExpiredDate" />
+                <ScalarProperty Name="PassportIssueDate" ColumnName="PassportIssueDate" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="TemporaryLivingAllowance" ColumnName="TemporaryLivingAllowance" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nationalities">
+            <EntityTypeMapping TypeName="GGPDBModel.Nationality">
+              <MappingFragment StoreEntitySet="Nationality">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkingStatus">
+            <EntityTypeMapping TypeName="GGPDBModel.WorkingStatus">
+              <MappingFragment StoreEntitySet="WorkingStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="GGPDBModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="NationalityId" ColumnName="NationalityId" />
+                <ScalarProperty Name="WorkingStatusId" ColumnName="WorkingStatusId" />
+                <ScalarProperty Name="StartWorkingDate" ColumnName="StartWorkingDate" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NationalIdentificationNumber" ColumnName="NationalIdentificationNumber" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -45,7 +45,7 @@ namespace GGP
         {
             get
             {
-                return _account != null ? _account.Employees.Any() ? _account.Employees.First().Name : _account.Username : null;
+                return _account != null ? _account.Employees.Any() ? String.Format("{0} {1}",_account.Employees.First().Firstname, _account.Employees.First().Lastname) : _account.Username : null;
             }
         }
 

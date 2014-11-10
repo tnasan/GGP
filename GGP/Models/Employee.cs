@@ -20,10 +20,21 @@ namespace GGP.Models
         }
     
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Alias { get; set; }
+        public string NationalIdentificationNumber { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
+        public string Address { get; set; }
+        public Nullable<System.DateTime> BirthDate { get; set; }
+        public Nullable<System.DateTime> StartWorkingDate { get; set; }
+        public int WorkingStatusId { get; set; }
+        public long NationalityId { get; set; }
     
+        public virtual AdditionalDocument AdditionalDocument { get; set; }
+        public virtual Nationality Nationality { get; set; }
+        public virtual WorkingStatus WorkingStatu { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }

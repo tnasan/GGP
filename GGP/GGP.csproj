@@ -143,6 +143,9 @@
     <Compile Include="Models\Account.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdditionalDocument.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Company.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
@@ -170,10 +173,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GGPDBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Nationality.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierContact.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WorkingStatus.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
