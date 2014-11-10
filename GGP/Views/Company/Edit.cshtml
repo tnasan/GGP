@@ -19,7 +19,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, "ชื่อ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
@@ -27,7 +27,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.TelephoneNumber, "โทร", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.TelephoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TelephoneNumber, "", new { @class = "text-danger" })
             </div>
@@ -35,7 +35,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.FaxNumber, "แฟกซ์", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-2">
                 @Html.EditorFor(model => model.FaxNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FaxNumber, "", new { @class = "text-danger" })
             </div>
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.WebsiteUrl, "เวบไซต์", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.WebsiteUrl, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WebsiteUrl, "", new { @class = "text-danger" })
             </div>
