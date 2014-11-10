@@ -11,15 +11,22 @@ namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Company
     {
         public long Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public string TelephoneNumber { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public string FaxNumber { get; set; }
+        [DataType(DataType.Url)]
         public string WebsiteUrl { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
     }
 }
