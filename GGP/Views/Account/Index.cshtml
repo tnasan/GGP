@@ -27,7 +27,7 @@
     {
         <tr>
             <td>
-                @(item.Employees.Any() ? Html.DisplayFor(modelItem => item.Employees.First().Name) : Html.Raw("ไม่มีข้อมูล"))
+                @(item.Employees.Any() ? Html.DisplayFor(modelItem => item.Employees.First().Firstname + " " + item.Employees.First().Lastname) : Html.Raw("ไม่มีข้อมูล"))
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
