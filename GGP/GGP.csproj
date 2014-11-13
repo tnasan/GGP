@@ -158,6 +158,9 @@
     <Compile Include="Models\CustomerContact.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
@@ -341,10 +344,12 @@
     <Content Include="Views\Nationality\Create.cshtml" />
     <Content Include="Views\Nationality\Edit.cshtml" />
     <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Department\Create.cshtml" />
+    <Content Include="Views\Department\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Department\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

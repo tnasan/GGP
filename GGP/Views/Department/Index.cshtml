@@ -1,0 +1,32 @@
+﻿@using GGP.Models
+@model IEnumerable<Department>
+
+@{
+    ViewBag.Title = "แผนก";
+}
+
+<h2>แผนก</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            แผนก
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+            </td>
+        </tr>
+    }
+</table>

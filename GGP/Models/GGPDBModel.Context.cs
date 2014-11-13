@@ -35,5 +35,6 @@ namespace GGP.Models
         public virtual DbSet<Nationality> Nationalities { get; set; }
         public virtual DbSet<WorkingStatus> WorkingStatus { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
     }
 }

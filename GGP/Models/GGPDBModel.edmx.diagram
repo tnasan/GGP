@@ -21,6 +21,8 @@
         <AssociationConnector Association="GGPDBModel.FK_Employee_Nationality" />
         <AssociationConnector Association="GGPDBModel.FK_Employee_WorkingStatus" />
         <AssociationConnector Association="GGPDBModel.EmployeeAccount" />
+        <EntityTypeShape EntityType="GGPDBModel.Department" Width="1.5" PointX="10.375" PointY="5.875" />
+        <AssociationConnector Association="GGPDBModel.FK_Employee_Department" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

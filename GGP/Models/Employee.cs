@@ -38,10 +38,12 @@ namespace GGP.Models
         public int WorkingStatusId { get; set; }
         [Required]
         public long NationalityId { get; set; }
+        public Nullable<int> DepartmentId { get; set; }
     
         public virtual AdditionalDocument AdditionalDocument { get; set; }
         public virtual Nationality Nationality { get; set; }
         public virtual WorkingStatus WorkingStatus { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual Department Department { get; set; }
     }
 }
