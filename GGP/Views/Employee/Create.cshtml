@@ -86,7 +86,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartWorkingDate, "วันที่เริ่มงาน", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide ="datepicker", data_date_autoclose="true", date_date_format = "dd/mm/yyyy" } })
+                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide ="datepicker", data_date_autoclose="true", data_date_format = "dd/mm/yyyy" } })
                 @Html.ValidationMessageFor(model => model.StartWorkingDate, "", new { @class = "text-danger" })
             </div>
         </div>
