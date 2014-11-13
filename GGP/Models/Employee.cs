@@ -11,6 +11,7 @@ namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Employee
     {
@@ -20,21 +21,27 @@ namespace GGP.Models
         }
     
         public long Id { get; set; }
+        [Required]
         public string Firstname { get; set; }
+        [Required]
         public string Lastname { get; set; }
         public string Alias { get; set; }
         public string NationalIdentificationNumber { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        [DataType(DataType.Text)]
         public Nullable<System.DateTime> BirthDate { get; set; }
+        [DataType(DataType.Text)]
         public Nullable<System.DateTime> StartWorkingDate { get; set; }
+        [Required]
         public int WorkingStatusId { get; set; }
+        [Required]
         public long NationalityId { get; set; }
     
         public virtual AdditionalDocument AdditionalDocument { get; set; }
         public virtual Nationality Nationality { get; set; }
-        public virtual WorkingStatus WorkingStatu { get; set; }
+        public virtual WorkingStatus WorkingStatus { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }

@@ -29,6 +29,13 @@ namespace GGP
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                       "~/Scripts/knockout-*"));
+            
+            bundles.Add(new StyleBundle("~/Content/css/bootstrap-datepicker").Include(
+                      "~/Content/bootstrap-datepicker3.css"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
+                      
+                      "~/Scripts/bootstrap-datepicker.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

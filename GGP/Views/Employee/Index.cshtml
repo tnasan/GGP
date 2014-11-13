@@ -1,9 +1,74 @@
-﻿@{
-    ViewBag.Title = "Employee";
+﻿@using GGP.Models;
+@model IEnumerable<Employee>
+
+@{
+    ViewBag.Title = "พนักงาน";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Employee</h2>
-    </div>
-</div>
+<h2>พนักงาน</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ชื่อ
+        </th>
+        <th>
+            นามสกุล
+        </th>
+        <th>
+            ชื่อเล่น
+        </th>
+        <th>
+            โทร
+        </th>
+        <th>
+            วันเกิด
+        </th>
+        <th>
+            วันที่เริ่มงาน
+        </th>
+        <th>
+            สถานะการทำงาน
+        </th>
+        <th>
+            สัญชาติ
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelephoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartWorkingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkingStatus.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationality.Name)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+            </td>
+        </tr>
+    }
+</table>

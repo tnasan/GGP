@@ -437,7 +437,7 @@
           <Property Name="NationalityId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="AdditionalDocument" Relationship="GGPDBModel.FK_AdditionalDocument_Employee" FromRole="Employee" ToRole="AdditionalDocument" />
           <NavigationProperty Name="Nationality" Relationship="GGPDBModel.FK_Employee_Nationality" FromRole="Employee" ToRole="Nationality" />
-          <NavigationProperty Name="WorkingStatu" Relationship="GGPDBModel.FK_Employee_WorkingStatus" FromRole="Employee" ToRole="WorkingStatu" />
+          <NavigationProperty Name="WorkingStatus" Relationship="GGPDBModel.FK_Employee_WorkingStatus" FromRole="Employee" ToRole="WorkingStatu" />
           <NavigationProperty Name="Accounts" Relationship="GGPDBModel.EmployeeAccount" FromRole="Employee" ToRole="Account" />
         </EntityType>
         <Association Name="FK_AdditionalDocument_Employee">
