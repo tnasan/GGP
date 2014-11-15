@@ -87,6 +87,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Firstname" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Lastname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Gender" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Alias" Type="nvarchar" MaxLength="50" />
           <Property Name="NationalIdentificationNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
@@ -456,6 +457,7 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Firstname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Lastname" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NationalIdentificationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -644,6 +646,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="GGPDBModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="NationalityId" ColumnName="NationalityId" />
                 <ScalarProperty Name="WorkingStatusId" ColumnName="WorkingStatusId" />

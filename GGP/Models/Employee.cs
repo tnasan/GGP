@@ -25,6 +25,8 @@ namespace GGP.Models
         public string Firstname { get; set; }
         [Required]
         public string Lastname { get; set; }
+        [Required]
+        public string Gender { get; set; }
         public string Alias { get; set; }
         public string NationalIdentificationNumber { get; set; }
         public string TelephoneNumber { get; set; }

@@ -19,6 +19,11 @@ namespace GGP.Controllers
 
         public ActionResult Create()
         {
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+
             return View(new Employee());
         }
 
