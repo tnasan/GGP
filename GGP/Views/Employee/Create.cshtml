@@ -107,6 +107,112 @@
             </div>
         </div>
 
+        <div class="form-group" data-bind="visible: ">
+        	<div class="col-md-2 col-md-offset-2">
+        		<div class="panel panel-default">
+        			<div class="panel-header">
+        				For Foreigner
+        			</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								เอกสาร ทร.38
+							</label>
+							<div class="col-md-2">
+								<input type="checkbox" class="form-control" name="AdditionalDocument.TemporaryLivingAllowance">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								Passport
+							</label>
+							<div class="col-md-2">
+								<input type="checkbox" class="form-control" name="AdditionalDocument.Passport" data-bind="value: passport">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								Passport No.
+							</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control" name="AdditionalDocument.PassportNumber" data-bind="textInput: passportNumber, enable: passport(), attr: { required: passport() }">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								วันออก Passport
+							</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control datepicker" name="AdditionalDocument.PassportIssuedDate" data-bind="textInput: passportExpiredDate, enable: passport(), attr { required: passport() }"
+									data-provide="datepicker" data-date-autoclose="true">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								วันหมดอายุ
+							</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control datepicker" name="AdditionalDocument.PassportExpiredDate" data-bind="textInput: passportExpiredDate, enable: passport(), attr { required: passport() }"
+									data-provide="datepicker" data-date-autoclose="true">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								VISA
+							</label>
+							<div class="col-md-2">
+								<input type="checkbox" class="form-control" name="AdditionalDocument.VISA" data-bind="value: VISA">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								VISA No.
+							</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control" name="AdditionalDocument.VISANumber" data-bind="textInput: VISANumber, enable: VISA(), attr: { required: VISA() }">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								วันหมดอายุ
+							</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control datepicker" name="AdditionalDocument.VISAExpiredDate" data-bind="textInput: VISAExpiredDate, enable: VISA(), attr: { required: VISA() }"
+									data-provide="datepicker" data-date-autoclose="true">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>เอกสารพิสูจน์สัญชาติ</label>
+							<div class="col-md-2">
+								<input type="checkbox" class="form-control" name="AdditionalDocument.NationalityVerification">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">
+								ใบอนุญาติทำงาน (Work Permit)
+							</label>
+							<div class="col-md-2">
+								<input type="checkbox" class="form-control" name="AdditionalDocument.WorkPermit" data-bind="value: workPermit">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">หมายเลข</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control" name="AdditionalDocument.WorkPermitNumber" data-bind="textInput: workPermitNumber, enable: workPermit(), attr: { required: worKPermit() }">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-2">วันหมดอายุ</label>
+							<div class="col-md-2">
+								<input type="text" class="form-control datepicker" name="AdditionalDocument.WorkPermitExpiredDate" data-bind="textInput: workPermitExpiredDate, enable: workPermit(), attr: { required: workPermit() }"
+									data-provide="datepicker" data-date-autoclose="true">
+							</div>
+						</div>
+					</div>
+        		</div>
+        	</div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="เพิ่ม" class="btn btn-default" />
@@ -123,4 +229,23 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     @Scripts.Render("~/bundles/knockout")
+
+    <script>
+    	function EmployeeViewModel() {
+    		var self = this;
+    		self.isForeigner = ko.observable(false);
+    		self.passport = ko.observable(false);
+    		self.passportIssueDate = ko.observable("");
+    		self.passportExpiredDate = ko.obserbable("");
+    		self.VISA = ko.observable(false);
+    		self.VISANumber = ko.observable("");
+    		self.VISAExpiredDate = ko.observable("");
+    		self.WorkPermit = ko.observable(false);
+    		self.WorkPermitNumber = ko.observable("");
+    		self.WorkPermitExpiredDate = ko.observable("");
+
+    	}
+
+    	ko.applyBindings(new EmployeeViewModel());
+    </script>
 }
