@@ -21,6 +21,7 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
+                ViewBag.Departments = new SelectList(db.Departments.ToList(), "Id", "Name");
                 ViewBag.WorkingStatus = db.WorkingStatus.ToList();
                 ViewBag.Nationalities = db.Nationalities.ToList();
             }
@@ -50,6 +51,7 @@ namespace GGP.Controllers
 
             using (GGPDBEntities db = new GGPDBEntities())
             {
+                ViewBag.Departments = new SelectList(db.Departments.ToList(), "Id", "Name");
                 ViewBag.WorkingStatus = db.WorkingStatus.ToList();
                 ViewBag.Nationalities = db.Nationalities.ToList();
 

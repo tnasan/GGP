@@ -31,6 +31,7 @@ namespace GGP.Models
         public string NationalIdentificationNumber { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
         [DataType(DataType.Text)]
         public Nullable<System.DateTime> BirthDate { get; set; }
