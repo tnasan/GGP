@@ -5,24 +5,24 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="96a06210742a47a6a5b7f618eb3a3cef" Name="Diagram1">
-        <EntityTypeShape EntityType="GGPDBModel.Customer" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GGPDBModel.CustomerContact" Width="1.5" PointX="10" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="GGPDBModel.Company" Width="1.5" PointX="2.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="GGPDBModel.Supplier" Width="1.5" PointX="5.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GGPDBModel.SupplierContact" Width="1.5" PointX="8" PointY="7.5" IsExpanded="true" />
-        <AssociationConnector Association="GGPDBModel.FK_CustomerContact" ManuallyRouted="false" />
-        <AssociationConnector Association="GGPDBModel.FK_SupplierContact" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="GGPDBModel.Account" Width="1.5" PointX="0.75" PointY="6.25" />
-        <EntityTypeShape EntityType="GGPDBModel.AdditionalDocument" Width="1.5" PointX="5.25" PointY="2.375" />
-        <EntityTypeShape EntityType="GGPDBModel.Nationality" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="GGPDBModel.WorkingStatus" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="GGPDBModel.Employee" Width="1.5" PointX="3" PointY="2.25" />
+        <EntityTypeShape EntityType="GGPDBModel.Customer" Width="1.5" PointX="7.75" PointY="1" />
+        <EntityTypeShape EntityType="GGPDBModel.CustomerContact" Width="1.5" PointX="10" PointY="1.25" />
+        <EntityTypeShape EntityType="GGPDBModel.Account" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="GGPDBModel.Company" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="GGPDBModel.AdditionalDocument" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="GGPDBModel.Department" Width="1.5" PointX="0.75" PointY="8.25" />
+        <EntityTypeShape EntityType="GGPDBModel.Employee" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="GGPDBModel.Nationality" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="GGPDBModel.WorkingStatus" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="GGPDBModel.Supplier" Width="1.5" PointX="2.75" PointY="7" />
+        <EntityTypeShape EntityType="GGPDBModel.SupplierContact" Width="1.5" PointX="5" PointY="7.25" />
+        <AssociationConnector Association="GGPDBModel.FK_CustomerContact" />
+        <AssociationConnector Association="GGPDBModel.FK_Employee_Account" />
         <AssociationConnector Association="GGPDBModel.FK_AdditionalDocument_Employee" />
+        <AssociationConnector Association="GGPDBModel.FK_Employee_Department" />
         <AssociationConnector Association="GGPDBModel.FK_Employee_Nationality" />
         <AssociationConnector Association="GGPDBModel.FK_Employee_WorkingStatus" />
-        <AssociationConnector Association="GGPDBModel.EmployeeAccount" />
-        <EntityTypeShape EntityType="GGPDBModel.Department" Width="1.5" PointX="10.375" PointY="5.875" />
-        <AssociationConnector Association="GGPDBModel.FK_Employee_Department" />
+        <AssociationConnector Association="GGPDBModel.FK_SupplierContact" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

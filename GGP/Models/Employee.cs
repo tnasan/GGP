@@ -15,11 +15,6 @@ namespace GGP.Models
     
     public partial class Employee
     {
-        public Employee()
-        {
-            this.Accounts = new HashSet<Account>();
-        }
-    
         public long Id { get; set; }
         [Required]
         public string Firstname { get; set; }
@@ -42,11 +37,12 @@ namespace GGP.Models
         [Required]
         public long NationalityId { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+        public string AccountUsername { get; set; }
     
+        public virtual Account Account { get; set; }
         public virtual AdditionalDocument AdditionalDocument { get; set; }
+        public virtual Department Department { get; set; }
         public virtual Nationality Nationality { get; set; }
         public virtual WorkingStatus WorkingStatus { get; set; }
-        public virtual ICollection<Account> Accounts { get; set; }
-        public virtual Department Department { get; set; }
     }
 }
