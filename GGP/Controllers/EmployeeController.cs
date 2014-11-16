@@ -13,7 +13,7 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                return View(db.Employees.ToList());
+                return View(db.Employees.Include("WorkingStatus").Include("Nationality").ToList());
             }
         }
 
@@ -21,6 +21,7 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
+                ViewBag.WorkingStatus = db.WorkingStatus.ToList();
                 ViewBag.Nationalities = db.Nationalities.ToList();
             }
 
@@ -36,7 +37,7 @@ namespace GGP.Controllers
                 db.Employees.Add(employee);
                 db.SaveChanges();
 
-                return View(employee);
+                return RedirectToAction("Index");
             }
         }
 
@@ -49,10 +50,15 @@ namespace GGP.Controllers
 
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                return View(db.Employees.Find(id));
+                ViewBag.WorkingStatus = db.WorkingStatus.ToList();
+                ViewBag.Nationalities = db.Nationalities.ToList();
+
+                return View(db.Employees.Include("AdditionalDocument").Single(x => x.Id == id));
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Employee employee)
         {
             if (employee == null || employee.Id <= 0)
