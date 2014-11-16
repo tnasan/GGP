@@ -85,15 +85,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, "วันเกิด", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" } })
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: birthDate" } })
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2 form-control-static">
+                <span data-bind="text: 'อายุ ' + moment(birthDate(), 'DD/MM/YYYY').fromNow(true), visible: moment(birthDate(), 'DD/MM/YYYY').isValid()"></span>
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.StartWorkingDate, "วันที่เริ่มงาน", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" } })
+                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: startWorkingDate" } })
                 @Html.ValidationMessageFor(model => model.StartWorkingDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2 form-control-static">
+                <span data-bind="text: 'อายุงาน ' + moment(startWorkingDate(), 'DD/MM/YYYY').fromNow(), visible: moment(startWorkingDate(), 'DD/MM/YYYY').isValid()"></span>
             </div>
         </div>
         <div class="form-group">
@@ -255,11 +261,17 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     @Scripts.Render("~/bundles/knockout")
     <script>
+        moment.locale("th");
+    </script>
+    <script>
         function EmployeeViewModel() {
             var self = this;
+            self.birthDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
+            self.startWorkingDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
             self.nationalityId = ko.observable("@Html.Raw(Model.NationalityId > 0 ? Model.NationalityId : 1)");
             self.passport = ko.observable(@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.Passport.ToString().ToLower() : "false"));
             self.passportNumber = ko.observable("@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.PassportNumber : String.Empty)");
