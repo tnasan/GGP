@@ -218,7 +218,7 @@
                             <div class="col-md-2">
                                 <div class="checkbox">
                                     <label>
-                                        @Html.CheckBoxFor(model => model.AdditionalDocument.WorkPermit)
+                                        @Html.CheckBoxFor(model => model.AdditionalDocument.WorkPermit, new { data_bind = "checked: workPermit" })
                                     </label>
                                 </div>
                             </div>
