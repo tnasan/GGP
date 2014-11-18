@@ -28,9 +28,7 @@ namespace GGP.Models
         public string Email { get; set; }
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-        [DataType(DataType.Text)]
         public Nullable<System.DateTime> BirthDate { get; set; }
-        [DataType(DataType.Text)]
         public Nullable<System.DateTime> StartWorkingDate { get; set; }
         [Required]
         public int WorkingStatusId { get; set; }

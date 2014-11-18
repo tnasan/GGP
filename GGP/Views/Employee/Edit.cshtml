@@ -265,26 +265,32 @@
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     @Scripts.Render("~/bundles/knockout")
     <script>
+        jQuery.validator.methods.date = function (value, element) {
+            var dateRegex = /^(0?[1-9]\/|[12]\d\/|3[01]\/){2}(19|20)\d\d$/;
+            return this.optional(element) || dateRegex.test(value);
+        };
+    </script>
+    <script>
         moment.locale("th");
     </script>
     <script>
         function EmployeeViewModel() {
             var self = this;
-            self.birthDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
-            self.startWorkingDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
+            self.birthDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToShortDateString() : String.Empty)");
+            self.startWorkingDate = ko.observable("@Html.Raw(Model.BirthDate.HasValue ? Model.BirthDate.Value.ToShortDateString() : String.Empty)");
             self.nationalityId = ko.observable("@Html.Raw(Model.NationalityId > 0 ? Model.NationalityId : 1)");
             self.passport = ko.observable(@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.Passport.ToString().ToLower() : "false"));
             self.passportNumber = ko.observable("@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.PassportNumber : String.Empty)");
-            self.passportIssueDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.PassportIssueDate.HasValue ? Model.AdditionalDocument.PassportIssueDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
-            self.passportExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument !=null && Model.AdditionalDocument.PassportExpiredDate.HasValue ?  Model.AdditionalDocument.PassportExpiredDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
+            self.passportIssueDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.PassportIssueDate.HasValue ? Model.AdditionalDocument.PassportIssueDate.Value.ToShortDateString() : String.Empty)");
+            self.passportExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument !=null && Model.AdditionalDocument.PassportExpiredDate.HasValue ?  Model.AdditionalDocument.PassportExpiredDate.Value.ToShortDateString() : String.Empty)");
             self.VISA = ko.observable(@Html.Raw(Model.AdditionalDocument !=null ? Model.AdditionalDocument.VISA.ToString().ToLower() : "false"));
             self.VISANumber = ko.observable("@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.VISANumber : String.Empty)");
-            self.VISAExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.VISAExpiredDate.HasValue ? Model.AdditionalDocument.VISAExpiredDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
+            self.VISAExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.VISAExpiredDate.HasValue ? Model.AdditionalDocument.VISAExpiredDate.Value.ToShortDateString() : String.Empty)");
             self.workPermit = ko.observable(@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.WorkPermit.ToString().ToLower() : "false"));
             self.workPermitNumber = ko.observable("@Html.Raw(Model.AdditionalDocument != null ? Model.AdditionalDocument.WorkPermitNumber : String.Empty)");
-            self.workPermitExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.WorkPermitExpiredDate.HasValue ? Model.AdditionalDocument.WorkPermitExpiredDate.Value.ToString("dd/MM/yyyy") : String.Empty)");
+            self.workPermitExpiredDate = ko.observable("@Html.Raw(Model.AdditionalDocument != null && Model.AdditionalDocument.WorkPermitExpiredDate.HasValue ? Model.AdditionalDocument.WorkPermitExpiredDate.Value.ToShortDateString() : String.Empty)");
         }
 
         ko.applyBindings(new EmployeeViewModel());
-</script>
+    </script>
 }

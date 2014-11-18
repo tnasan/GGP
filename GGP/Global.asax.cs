@@ -8,6 +8,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using GGP.Models;
 using System.Security.Principal;
+using System.Globalization;
 
 namespace GGP
 {
@@ -19,6 +20,14 @@ namespace GGP
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            CultureInfo newCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            newCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)

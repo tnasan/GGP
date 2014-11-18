@@ -34,7 +34,8 @@ namespace GGP
                       "~/Content/bootstrap-datepicker3.css"));
             
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
-                      "~/Scripts/bootstrap-datepicker.js"));
+                      "~/Scripts/bootstrap-datepicker.js",
+                      "~/Scripts/locales/bootstrap-datepicker.th.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                       "~/Scripts/moment-with-locales*"));
