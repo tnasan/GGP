@@ -85,7 +85,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, "วันเกิด", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: birthDate" } })
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: birthDate", data_date_language = "th" } })
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-2 form-control-static">
@@ -95,7 +95,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartWorkingDate, "วันที่เริ่มงาน", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: startWorkingDate" } })
+                @Html.EditorFor(model => model.StartWorkingDate, new { htmlAttributes = new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: startWorkingDate", data_date_language = "th" } })
                 @Html.ValidationMessageFor(model => model.StartWorkingDate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-2 form-control-static">
@@ -170,7 +170,7 @@
                                 วันออก Passport
                             </label>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(model => model.AdditionalDocument.PassportIssueDate, new { @class = "form-control datepicker", data_bind = "textInput: passportIssueDate, enable: passport, attr: { required: passport }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" })
+                                @Html.TextBoxFor(model => model.AdditionalDocument.PassportIssueDate, new { @class = "form-control datepicker", data_bind = "textInput: passportIssueDate, enable: passport, attr: { required: passport }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -178,7 +178,7 @@
                                 วันหมดอายุ
                             </label>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(model => model.AdditionalDocument.PassportExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: passportExpiredDate, enable: passport, attr: { required: passport }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" })
+                                @Html.TextBoxFor(model => model.AdditionalDocument.PassportExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: passportExpiredDate, enable: passport, attr: { required: passport }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -206,7 +206,7 @@
                                 วันหมดอายุ
                             </label>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(model => model.AdditionalDocument.VISAExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: VISAExpiredDate, enable: VISA, attr: { required: VISA }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" })
+                                @Html.TextBoxFor(model => model.AdditionalDocument.VISAExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: VISAExpiredDate, enable: VISA, attr: { required: VISA }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -242,7 +242,7 @@
                                 วันหมดอายุ
                             </label>
                             <div class="col-md-2">
-                                @Html.TextBoxFor(model => model.AdditionalDocument.WorkPermitExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: workPermitExpiredDate, enable: workPermit, attr: { required: workPermit }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy" })
+                                @Html.TextBoxFor(model => model.AdditionalDocument.WorkPermitExpiredDate, new { @class = "form-control datepicker", data_bind = "textInput: workPermitExpiredDate, enable: workPermit, attr: { required: workPermit }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
                             </div>
                         </div>
                     </div>
