@@ -40,6 +40,24 @@ namespace GGP.Controllers
                 {
                     employee.AdditionalDocument = null;
                 }
+                else
+                {
+                    employee.AdditionalDocument = new AdditionalDocument()
+                    {
+                        TemporaryLivingAllowance = employee.AdditionalDocument.TemporaryLivingAllowance,
+                        Passport = employee.AdditionalDocument.Passport,
+                        PassportNumber = employee.AdditionalDocument.PassportNumber,
+                        PassportIssueDate = employee.AdditionalDocument.PassportIssueDate,
+                        PassportExpiredDate = employee.AdditionalDocument.PassportExpiredDate,
+                        VISA = employee.AdditionalDocument.VISA,
+                        VISANumber = employee.AdditionalDocument.VISANumber,
+                        VISAExpiredDate = employee.AdditionalDocument.VISAExpiredDate,
+                        NationalityVerification = employee.AdditionalDocument.NationalityVerification,
+                        WorkPermit = employee.AdditionalDocument.WorkPermit,
+                        WorkPermitNumber = employee.AdditionalDocument.WorkPermitNumber,
+                        WorkPermitExpiredDate = employee.AdditionalDocument.WorkPermitExpiredDate
+                    };
+                }
 
                 db.Employees.Add(employee);
                 db.SaveChanges();
