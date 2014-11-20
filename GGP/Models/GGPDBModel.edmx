@@ -40,6 +40,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" />
@@ -336,6 +337,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="FaxNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -560,6 +562,7 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="GGPDBModel.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="WebsiteUrl" ColumnName="WebsiteUrl" />

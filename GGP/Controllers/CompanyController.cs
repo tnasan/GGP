@@ -72,6 +72,7 @@ namespace GGP.Controllers
                     return RedirectToAction("Index");
                 }
 
+                dbCompany.Code = company.Code;
                 dbCompany.Name = company.Name;
                 dbCompany.TelephoneNumber = company.TelephoneNumber;
                 dbCompany.FaxNumber = company.FaxNumber;

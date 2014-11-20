@@ -12,10 +12,13 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Company
     {
         public long Id { get; set; }
+        [Required]
+        [MaxLength(10)]
+        public string Code { get; set; }
         [Required]
         public string Name { get; set; }
         [DataType(DataType.PhoneNumber)]
