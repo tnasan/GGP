@@ -129,6 +129,13 @@
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="Email" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="UnifOfMeasurement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <Association Name="FK_AdditionalDocument_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="AdditionalDocument" Type="Self.AdditionalDocument" Multiplicity="0..1" />
@@ -225,6 +232,7 @@
           <EntitySet Name="WorkingStatus" EntityType="Self.WorkingStatus" Schema="Employee" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
+          <EntitySet Name="UnifOfMeasurement" EntityType="Self.UnifOfMeasurement" Schema="UnitOfMeasurement" store:Type="Tables" />
           <AssociationSet Name="FK_AdditionalDocument_Employee" Association="Self.FK_AdditionalDocument_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="AdditionalDocument" EntitySet="AdditionalDocument" />
@@ -298,6 +306,7 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierContact" EntitySet="SupplierContacts" />
           </AssociationSet>
+          <EntitySet Name="UnifOfMeasurements" EntityType="GGPDBModel.UnifOfMeasurement" />
         </EntityContainer>
         <EntityType Name="Customer">
           <Key>
@@ -337,7 +346,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="FaxNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -521,6 +530,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UnifOfMeasurement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -657,6 +673,14 @@
                 <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnifOfMeasurements">
+            <EntityTypeMapping TypeName="GGPDBModel.UnifOfMeasurement">
+              <MappingFragment StoreEntitySet="UnifOfMeasurement">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

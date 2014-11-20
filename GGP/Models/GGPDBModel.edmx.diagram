@@ -23,6 +23,7 @@
         <AssociationConnector Association="GGPDBModel.FK_Employee_Nationality" />
         <AssociationConnector Association="GGPDBModel.FK_Employee_WorkingStatus" />
         <AssociationConnector Association="GGPDBModel.FK_SupplierContact" />
+        <EntityTypeShape EntityType="GGPDBModel.UnifOfMeasurement" Width="1.5" PointX="7.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

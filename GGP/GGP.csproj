@@ -140,6 +140,7 @@
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\NationalityController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\UMController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +187,9 @@
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SupplierContact.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnifOfMeasurement.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkingStatus.cs">
@@ -352,6 +356,9 @@
     <Content Include="Views\Department\Create.cshtml" />
     <Content Include="Views\Department\Edit.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\UM\Index.cshtml" />
+    <Content Include="Views\UM\Create.cshtml" />
+    <Content Include="Views\UM\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
