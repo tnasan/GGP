@@ -25,15 +25,22 @@ namespace GGP.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ARCheque> ARCheques { get; set; }
+        public virtual DbSet<ARPayment> ARPayments { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<BillARPayment> BillARPayments { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerContact> CustomerContacts { get; set; }
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<AdditionalDocument> AdditionalDocuments { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Nationality> Nationalities { get; set; }
         public virtual DbSet<WorkingStatus> WorkingStatus { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Bank> Banks { get; set; }
+        public virtual DbSet<ChequeStatu> ChequeStatus { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
         public virtual DbSet<UnifOfMeasurement> UnifOfMeasurements { get; set; }

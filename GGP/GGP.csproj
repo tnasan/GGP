@@ -132,6 +132,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -148,6 +149,24 @@
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AdditionalDocument.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ARCheque.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ARPayment.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bank.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bill.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BillARPayment.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChequeStatu.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs">
@@ -181,6 +200,9 @@
       <DependentUpon>GGPDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Nationality.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaymentMethod.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supplier.cs">
@@ -359,6 +381,9 @@
     <Content Include="Views\UM\Index.cshtml" />
     <Content Include="Views\UM\Create.cshtml" />
     <Content Include="Views\UM\Edit.cshtml" />
+    <Content Include="Views\Bank\Index.cshtml" />
+    <Content Include="Views\Bank\Create.cshtml" />
+    <Content Include="Views\Bank\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

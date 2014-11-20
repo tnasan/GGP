@@ -15,6 +15,11 @@ namespace GGP.Models
     
     public partial class Company
     {
+        public Company()
+        {
+            this.Bills = new HashSet<Bill>();
+        }
+    
         public long Id { get; set; }
         [Required]
         [MaxLength(10)]
@@ -31,5 +36,7 @@ namespace GGP.Models
         public string Address { get; set; }
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
+    
+        public virtual ICollection<Bill> Bills { get; set; }
     }
 }
