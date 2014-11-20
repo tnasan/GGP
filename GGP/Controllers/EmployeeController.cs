@@ -35,6 +35,12 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
+                // If Nationality is Thai, set null to AdditionalDocument to prevent error
+                if (db.Nationalities.Find(employee.Id).Name == "ไทย")
+                {
+                    employee.AdditionalDocument = null;
+                }
+
                 db.Employees.Add(employee);
                 db.SaveChanges();
 
@@ -86,7 +92,7 @@ namespace GGP.Controllers
                 dbEmployee.StartWorkingDate = employee.StartWorkingDate;
                 dbEmployee.WorkingStatusId = employee.WorkingStatusId;
                 dbEmployee.NationalityId = employee.NationalityId;
-                if (employee.AdditionalDocument != null)
+                if (employee.AdditionalDocument != null && db.Nationalities.Find(employee.NationalityId).Name != "ไทย")
                 {
                     if (dbEmployee.AdditionalDocument == null)
                     {
