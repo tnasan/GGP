@@ -8,6 +8,9 @@ namespace GGP
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            // Enable CDN
+            bundles.UseCdn = true;
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -28,7 +31,7 @@ namespace GGP
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                      "~/Scripts/knockout-*"));
+                      "~/Scripts/knockout-{version}.js"));
             
             bundles.Add(new StyleBundle("~/Content/css/bootstrap-datepicker").Include(
                       "~/Content/bootstrap-datepicker3.css"));
@@ -39,6 +42,14 @@ namespace GGP
 
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                       "~/Scripts/moment-with-locales*"));
+
+            bundles.Add(new StyleBundle("~/Content/css/jquery-datatables").Include(
+                      "~/Content/dataTables.bootstrap.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-datatables", "//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-datatables-bootstrap").Include(
+                      "~/Scripts/dataTables.bootstrap.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

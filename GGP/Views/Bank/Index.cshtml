@@ -4,12 +4,17 @@
     ViewBag.Title = "ธนาคาร";
 }
 
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datatables")
+}
+
 <h2>ธนาคาร</h2>
 
 <p>
     <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
 </p>
-<table class="table">
+<table class="table" id="bankTable">
     <thead>
         <tr>
             <th>
@@ -38,3 +43,12 @@
         }
     </tbody>
 </table>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#bankTable").DataTable();
+    </script>
+}

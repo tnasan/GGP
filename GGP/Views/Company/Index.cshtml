@@ -2,11 +2,17 @@
 @{
     ViewBag.Title = "บริษัท";
 }
+
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datables")
+}
+
 <h2>บริษัท</h2>
 <p>
     <a class="btn btn-default" href="@Url.Action("Create")"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
 </p>
-<table class="table">
+<table class="table" id="compnayTable">
     <thead>
         <tr>
             <th>
@@ -65,3 +71,12 @@
         }
     </tbody>
 </table>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#companyTable").DataTable();
+    </script>
+}

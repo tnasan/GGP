@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "รายชื่อบัญชีผู้ใช้";
 }
+
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datatables")
+}
 <h2>รายชื่อบัญชีผู้ใช้</h2>
 
 <p>
@@ -43,3 +48,12 @@
         }
     </tbody>
 </table>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#accountTable").DataTable();
+    </script>
+}

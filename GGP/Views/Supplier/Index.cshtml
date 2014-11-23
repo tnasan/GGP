@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Supplier";
 }
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datables")
+}
 <div class="row">
     <div class="col-md-4">
         <h2>Supplier</h2>
@@ -15,7 +19,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-striped table-responsive">
+        <table class="table table-striped table-responsive" id="supplierTable">
             <thead>
                 <tr>
                     <th>ชื่อ Supplier</th>
@@ -51,3 +55,11 @@
         </table>
     </div>
 </div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#supplierTable").DataTable();
+    </script>
+}
