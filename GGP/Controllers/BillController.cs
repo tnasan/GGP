@@ -22,7 +22,7 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Name");
+                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
                 ViewBag.Customers = new SelectList(db.Customers.ToList(), "Id", "Name");
                 ViewBag.BillStatuses = db.BillStatus.ToList();
 
@@ -53,7 +53,7 @@ namespace GGP.Controllers
 
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Name");
+                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
                 ViewBag.Customers = new SelectList(db.Customers.ToList(), "Id", "Name");
                 ViewBag.BillStatuses = db.BillStatus.ToList();
 
