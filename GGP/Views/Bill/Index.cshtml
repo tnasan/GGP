@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GGP.Models.Bill>
+
+@{
+    ViewBag.Title = "บิล";
+}
+
+<h2>บิล</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> สร้าง</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                เลขที่
+            </th>
+            <th>
+                บริษัท
+            </th>
+            <th>
+                วันที่บิล
+            </th>
+            <th>
+                ลูกค้า
+            </th>
+            <th>
+                จำนวน
+            </th>
+            <th>
+                สถานะ
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company.Code)
+                </td>
+                <td>
+                    @item.BillDate.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BillStatus.Status)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -38,11 +38,14 @@ namespace GGP.Models
         public virtual DbSet<WorkingStatus> WorkingStatus { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Bank> Banks { get; set; }
-        public virtual DbSet<ChequeStatu> ChequeStatus { get; set; }
+        public virtual DbSet<ChequeStatus> ChequeStatus { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
         public virtual DbSet<UnifOfMeasurement> UnifOfMeasurements { get; set; }
+        public virtual DbSet<BillStatus> BillStatus { get; set; }
+        public virtual DbSet<AccountType> AccountTypes { get; set; }
+        public virtual DbSet<CompanyBankAccount> CompanyBankAccounts { get; set; }
     }
 }

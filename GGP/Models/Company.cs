@@ -18,6 +18,7 @@ namespace GGP.Models
         public Company()
         {
             this.Bills = new HashSet<Bill>();
+            this.CompanyBankAccounts = new HashSet<CompanyBankAccount>();
         }
     
         public long Id { get; set; }
@@ -38,5 +39,6 @@ namespace GGP.Models
         public string Remark { get; set; }
     
         public virtual ICollection<Bill> Bills { get; set; }
+        public virtual ICollection<CompanyBankAccount> CompanyBankAccounts { get; set; }
     }
 }

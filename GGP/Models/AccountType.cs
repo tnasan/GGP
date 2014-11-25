@@ -12,16 +12,16 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChequeStatu
+    public partial class AccountType
     {
-        public ChequeStatu()
+        public AccountType()
         {
-            this.ARCheques = new HashSet<ARCheque>();
+            this.CompanyBankAccounts = new HashSet<CompanyBankAccount>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<ARCheque> ARCheques { get; set; }
+        public virtual ICollection<CompanyBankAccount> CompanyBankAccounts { get; set; }
     }
 }

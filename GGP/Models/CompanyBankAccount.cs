@@ -12,16 +12,16 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ARCheque
+    public partial class CompanyBankAccount
     {
-        public long ARPaymentId { get; set; }
-        public System.DateTime ReceiptDate { get; set; }
+        public long CompanyId { get; set; }
+        public string AccountNumber { get; set; }
         public long BankId { get; set; }
-        public string ChequeNumber { get; set; }
-        public int ChequeStatusId { get; set; }
+        public string Name { get; set; }
+        public int AccountTypeId { get; set; }
     
-        public virtual ARPayment ARPayment { get; set; }
+        public virtual AccountType AccountType { get; set; }
         public virtual Bank Bank { get; set; }
-        public virtual ChequeStatus ChequeStatus { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

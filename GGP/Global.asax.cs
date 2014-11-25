@@ -26,6 +26,7 @@ namespace GGP
         {
             CultureInfo newCulture = (CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             newCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            newCulture.NumberFormat.CurrencySymbol = "฿";
 
             System.Threading.Thread.CurrentThread.CurrentCulture = newCulture;
         }

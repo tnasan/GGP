@@ -132,7 +132,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ARPaymentController.cs" />
     <Compile Include="Controllers\BankController.cs" />
+    <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -146,6 +148,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountType.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AdditionalDocument.cs">
@@ -166,10 +171,16 @@
     <Compile Include="Models\BillARPayment.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChequeStatu.cs">
+    <Compile Include="Models\BillStatus.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChequeStatus.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Company.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CompanyBankAccount.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Customer.cs">
@@ -386,9 +397,13 @@
     <Content Include="Views\Bank\Index.cshtml" />
     <Content Include="Views\Bank\Create.cshtml" />
     <Content Include="Views\Bank\Edit.cshtml" />
+    <Content Include="Views\Bill\Create.cshtml" />
+    <Content Include="Views\Bill\Index.cshtml" />
+    <Content Include="Views\Bill\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ARPayment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

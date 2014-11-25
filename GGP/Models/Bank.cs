@@ -17,6 +17,7 @@ namespace GGP.Models
         public Bank()
         {
             this.ARCheques = new HashSet<ARCheque>();
+            this.CompanyBankAccounts = new HashSet<CompanyBankAccount>();
         }
     
         public long Id { get; set; }
@@ -24,5 +25,6 @@ namespace GGP.Models
         public string Abbreviation { get; set; }
     
         public virtual ICollection<ARCheque> ARCheques { get; set; }
+        public virtual ICollection<CompanyBankAccount> CompanyBankAccounts { get; set; }
     }
 }

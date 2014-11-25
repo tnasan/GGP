@@ -34,6 +34,7 @@
           <Property Name="CompanyId" Type="bigint" Nullable="false" />
           <Property Name="BillDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerId" Type="bigint" Nullable="false" />
+          <Property Name="BillStatusId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BillARPayment">
           <Key>
@@ -43,6 +44,13 @@
           <Property Name="BillID" Type="bigint" Nullable="false" />
           <Property Name="ARPaymentId" Type="bigint" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BillStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -133,6 +141,13 @@
           <Property Name="Password" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Salt" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Bank">
           <Key>
             <PropertyRef Name="Id" />
@@ -160,6 +175,18 @@
           <Property Name="WebsiteUrl" Type="nvarchar" MaxLength="100" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CompanyBankAccount">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="AccountNumber" />
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="CompanyId" Type="bigint" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BankId" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AccountTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -257,6 +284,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Bill_BillStatus">
+          <End Role="BillStatus" Type="Self.BillStatus" Multiplicity="1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="BillStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Bill_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
@@ -302,6 +341,42 @@
             </Principal>
             <Dependent Role="BillARPayment">
               <PropertyRef Name="BillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_AccountType">
+          <End Role="AccountType" Type="Self.AccountType" Multiplicity="1" />
+          <End Role="CompanyBankAccount" Type="Self.CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="AccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+          <End Role="CompanyBankAccount" Type="Self.CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="CompanyBankAccount" Type="Self.CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -382,6 +457,7 @@
           <EntitySet Name="ARPayment" EntityType="Self.ARPayment" Schema="AccountsReceivable" store:Type="Tables" />
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="AccountsReceivable" store:Type="Tables" />
           <EntitySet Name="BillARPayment" EntityType="Self.BillARPayment" Schema="AccountsReceivable" store:Type="Tables" />
+          <EntitySet Name="BillStatus" EntityType="Self.BillStatus" Schema="AccountsReceivable" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="Customer" store:Type="Tables" />
           <EntitySet Name="CustomerContact" EntityType="Self.CustomerContact" Schema="Customer" store:Type="Tables" />
           <EntitySet Name="AdditionalDocument" EntityType="Self.AdditionalDocument" Schema="Employee" store:Type="Tables" />
@@ -390,9 +466,11 @@
           <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="Employee" store:Type="Tables" />
           <EntitySet Name="WorkingStatus" EntityType="Self.WorkingStatus" Schema="Employee" store:Type="Tables" />
           <EntitySet Name="Account" EntityType="Self.Account" Schema="General" store:Type="Tables" />
+          <EntitySet Name="AccountType" EntityType="Self.AccountType" Schema="General" store:Type="Tables" />
           <EntitySet Name="Bank" EntityType="Self.Bank" Schema="General" store:Type="Tables" />
           <EntitySet Name="ChequeStatus" EntityType="Self.ChequeStatus" Schema="General" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="General" store:Type="Tables" />
+          <EntitySet Name="CompanyBankAccount" EntityType="Self.CompanyBankAccount" Schema="General" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="General" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
@@ -417,6 +495,10 @@
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
             <End Role="ARPayment" EntitySet="ARPayment" />
           </AssociationSet>
+          <AssociationSet Name="FK_Bill_BillStatus" Association="Self.FK_Bill_BillStatus">
+            <End Role="BillStatus" EntitySet="BillStatus" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
           <AssociationSet Name="FK_Bill_Company" Association="Self.FK_Bill_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Bill" EntitySet="Bill" />
@@ -432,6 +514,18 @@
           <AssociationSet Name="FK_BillARPayment_Bill" Association="Self.FK_BillARPayment_Bill">
             <End Role="Bill" EntitySet="Bill" />
             <End Role="BillARPayment" EntitySet="BillARPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_AccountType" Association="Self.FK_CompanyBankAccount_AccountType">
+            <End Role="AccountType" EntitySet="AccountType" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_Bank" Association="Self.FK_CompanyBankAccount_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_Company" Association="Self.FK_CompanyBankAccount_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccount" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomerContact" Association="Self.FK_CustomerContact">
             <End Role="Customer" EntitySet="Customer" />
@@ -476,7 +570,7 @@
           <EntitySet Name="WorkingStatus" EntityType="GGPDBModel.WorkingStatus" />
           <EntitySet Name="Accounts" EntityType="GGPDBModel.Account" />
           <EntitySet Name="Banks" EntityType="GGPDBModel.Bank" />
-          <EntitySet Name="ChequeStatus" EntityType="GGPDBModel.ChequeStatu" />
+          <EntitySet Name="ChequeStatus" EntityType="GGPDBModel.ChequeStatus" />
           <EntitySet Name="Companies" EntityType="GGPDBModel.Company" />
           <EntitySet Name="PaymentMethods" EntityType="GGPDBModel.PaymentMethod" />
           <EntitySet Name="Suppliers" EntityType="GGPDBModel.Supplier" />
@@ -542,6 +636,25 @@
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="SupplierContact" EntitySet="SupplierContacts" />
           </AssociationSet>
+          <EntitySet Name="BillStatus" EntityType="GGPDBModel.BillStatus" />
+          <EntitySet Name="AccountTypes" EntityType="GGPDBModel.AccountType" />
+          <EntitySet Name="CompanyBankAccounts" EntityType="GGPDBModel.CompanyBankAccount" />
+          <AssociationSet Name="FK_Bill_BillStatus" Association="GGPDBModel.FK_Bill_BillStatus">
+            <End Role="BillStatu" EntitySet="BillStatus" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_AccountType" Association="GGPDBModel.FK_CompanyBankAccount_AccountType">
+            <End Role="AccountType" EntitySet="AccountTypes" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_Bank" Association="GGPDBModel.FK_CompanyBankAccount_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyBankAccount_Company" Association="GGPDBModel.FK_CompanyBankAccount_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="CompanyBankAccount" EntitySet="CompanyBankAccounts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ARCheque">
           <Key>
@@ -554,7 +667,7 @@
           <Property Name="ChequeStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ARPayment" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARCheque" ToRole="ARPayment" />
           <NavigationProperty Name="Bank" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="ARCheque" ToRole="Bank" />
-          <NavigationProperty Name="ChequeStatu" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ARCheque" ToRole="ChequeStatu" />
+          <NavigationProperty Name="ChequeStatus" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ARCheque" ToRole="ChequeStatu" />
         </EntityType>
         <EntityType Name="ARPayment">
           <Key>
@@ -581,6 +694,8 @@
           <NavigationProperty Name="Company" Relationship="GGPDBModel.FK_Bill_Company" FromRole="Bill" ToRole="Company" />
           <NavigationProperty Name="Customer" Relationship="GGPDBModel.FK_Bill_Customer" FromRole="Bill" ToRole="Customer" />
           <NavigationProperty Name="BillARPayments" Relationship="GGPDBModel.FK_BillARPayment_Bill" FromRole="Bill" ToRole="BillARPayment" />
+          <Property Name="BillStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BillStatus" Relationship="GGPDBModel.FK_Bill_BillStatus" FromRole="Bill" ToRole="BillStatu" />
         </EntityType>
         <EntityType Name="BillARPayment">
           <Key>
@@ -703,8 +818,9 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Abbreviation" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ARCheques" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="Bank" ToRole="ARCheque" />
+          <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_Bank" FromRole="Bank" ToRole="CompanyBankAccount" />
         </EntityType>
-        <EntityType Name="ChequeStatu">
+        <EntityType Name="ChequeStatus">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -725,6 +841,7 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bills" Relationship="GGPDBModel.FK_Bill_Company" FromRole="Company" ToRole="Bill" />
+          <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_Company" FromRole="Company" ToRole="CompanyBankAccount" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -790,7 +907,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ARCheque_ChequeStatus">
-          <End Type="GGPDBModel.ChequeStatu" Role="ChequeStatu" Multiplicity="1" />
+          <End Type="GGPDBModel.ChequeStatus" Role="ChequeStatu" Multiplicity="1" />
           <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ChequeStatu">
@@ -945,6 +1062,85 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BillStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bills" Relationship="GGPDBModel.FK_Bill_BillStatus" FromRole="BillStatu" ToRole="Bill" />
+        </EntityType>
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_AccountType" FromRole="AccountType" ToRole="CompanyBankAccount" />
+        </EntityType>
+        <EntityType Name="CompanyBankAccount">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="AccountNumber" />
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankId" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccountType" Relationship="GGPDBModel.FK_CompanyBankAccount_AccountType" FromRole="CompanyBankAccount" ToRole="AccountType" />
+          <NavigationProperty Name="Bank" Relationship="GGPDBModel.FK_CompanyBankAccount_Bank" FromRole="CompanyBankAccount" ToRole="Bank" />
+          <NavigationProperty Name="Company" Relationship="GGPDBModel.FK_CompanyBankAccount_Company" FromRole="CompanyBankAccount" ToRole="Company" />
+        </EntityType>
+        <Association Name="FK_Bill_BillStatus">
+          <End Type="GGPDBModel.BillStatus" Role="BillStatu" Multiplicity="1" />
+          <End Type="GGPDBModel.Bill" Role="Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BillStatu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="BillStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_AccountType">
+          <End Type="GGPDBModel.AccountType" Role="AccountType" Multiplicity="1" />
+          <End Type="GGPDBModel.CompanyBankAccount" Role="CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="AccountTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_Bank">
+          <End Type="GGPDBModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="GGPDBModel.CompanyBankAccount" Role="CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyBankAccount_Company">
+          <End Type="GGPDBModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="GGPDBModel.CompanyBankAccount" Role="CompanyBankAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CompanyBankAccount">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -975,6 +1171,7 @@
           <EntitySetMapping Name="Bills">
             <EntityTypeMapping TypeName="GGPDBModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="BillStatusId" ColumnName="BillStatusId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="BillDate" ColumnName="BillDate" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -1099,7 +1296,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChequeStatus">
-            <EntityTypeMapping TypeName="GGPDBModel.ChequeStatu">
+            <EntityTypeMapping TypeName="GGPDBModel.ChequeStatus">
               <MappingFragment StoreEntitySet="ChequeStatus">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1156,6 +1353,33 @@
               <MappingFragment StoreEntitySet="UnifOfMeasurement">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillStatus">
+            <EntityTypeMapping TypeName="GGPDBModel.BillStatus">
+              <MappingFragment StoreEntitySet="BillStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountTypes">
+            <EntityTypeMapping TypeName="GGPDBModel.AccountType">
+              <MappingFragment StoreEntitySet="AccountType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyBankAccounts">
+            <EntityTypeMapping TypeName="GGPDBModel.CompanyBankAccount">
+              <MappingFragment StoreEntitySet="CompanyBankAccount">
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

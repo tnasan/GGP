@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="GGPDBModel.WorkingStatus" Width="1.5" PointX="0.75" PointY="5.875" />
         <EntityTypeShape EntityType="GGPDBModel.Account" Width="1.5" PointX="0.75" PointY="8.25" />
         <EntityTypeShape EntityType="GGPDBModel.Bank" Width="1.5" PointX="5" PointY="20.75" />
-        <EntityTypeShape EntityType="GGPDBModel.ChequeStatu" Width="1.5" PointX="5" PointY="15.25" />
+        <EntityTypeShape EntityType="GGPDBModel.ChequeStatus" Width="1.5" PointX="5" PointY="15.25" />
         <EntityTypeShape EntityType="GGPDBModel.Company" Width="1.5" PointX="2.75" PointY="13.5" />
         <EntityTypeShape EntityType="GGPDBModel.PaymentMethod" Width="1.5" PointX="2.75" PointY="18" />
         <EntityTypeShape EntityType="GGPDBModel.Supplier" Width="1.5" PointX="7.75" PointY="1" />
@@ -39,6 +39,13 @@
         <AssociationConnector Association="GGPDBModel.FK_Employee_Nationality" />
         <AssociationConnector Association="GGPDBModel.FK_Employee_WorkingStatus" />
         <AssociationConnector Association="GGPDBModel.FK_SupplierContact" />
+        <EntityTypeShape EntityType="GGPDBModel.BillStatus" Width="1.5" PointX="2.75" PointY="21.25" />
+        <EntityTypeShape EntityType="GGPDBModel.AccountType" Width="1.5" PointX="5" PointY="24.375" />
+        <EntityTypeShape EntityType="GGPDBModel.CompanyBankAccount" Width="1.5" PointX="7.25" PointY="13.875" />
+        <AssociationConnector Association="GGPDBModel.FK_Bill_BillStatus" />
+        <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_AccountType" />
+        <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_Bank" />
+        <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

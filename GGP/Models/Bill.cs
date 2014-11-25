@@ -11,6 +11,7 @@ namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Bill
     {
@@ -20,14 +21,23 @@ namespace GGP.Models
         }
     
         public long Id { get; set; }
+        [Required]
         public string Number { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
+        [Required]
         public long CompanyId { get; set; }
+        [Required]
         public System.DateTime BillDate { get; set; }
+        [Required]
         public long CustomerId { get; set; }
+        [Required]
+        public int BillStatusId { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<BillARPayment> BillARPayments { get; set; }
+        public virtual BillStatus BillStatus { get; set; }
     }
 }
