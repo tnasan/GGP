@@ -23,7 +23,7 @@ namespace GGP.Controllers
             using (GGPDBEntities db = new GGPDBEntities())
             {
                 ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
-                ViewBag.Customers = new SelectList(db.Customers.ToList(), "Id", "Name");
+                ViewBag.Customers = new SelectList(db.Customers.OrderBy(x => x.Name).ToList(), "Id", "Name");
                 ViewBag.BillStatuses = db.BillStatus.ToList();
 
                 return View(new Bill());
@@ -54,7 +54,7 @@ namespace GGP.Controllers
             using (GGPDBEntities db = new GGPDBEntities())
             {
                 ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
-                ViewBag.Customers = new SelectList(db.Customers.ToList(), "Id", "Name");
+                ViewBag.Customers = new SelectList(db.Customers.OrderBy(x => x.Name).ToList(), "Id", "Name");
                 ViewBag.BillStatuses = db.BillStatus.ToList();
 
                 Bill bill = db.Bills.Find(id);
