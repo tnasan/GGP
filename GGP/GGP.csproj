@@ -142,6 +142,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\NationalityController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\UMController.cs" />
     <Compile Include="Global.asax.cs">
@@ -209,6 +210,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GGPDBModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Nationality.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
@@ -400,6 +404,9 @@
     <Content Include="Views\Bill\Create.cshtml" />
     <Content Include="Views\Bill\Index.cshtml" />
     <Content Include="Views\Bill\Edit.cshtml" />
+    <Content Include="Views\Stock\Index.cshtml" />
+    <Content Include="Views\Stock\Create.cshtml" />
+    <Content Include="Views\Stock\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

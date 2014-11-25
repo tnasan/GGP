@@ -15,9 +15,16 @@ namespace GGP.Models
     
     public partial class UnifOfMeasurement
     {
+        public UnifOfMeasurement()
+        {
+            this.Inventories = new HashSet<Inventory>();
+        }
+    
         public long Id { get; set; }
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+    
+        public virtual ICollection<Inventory> Inventories { get; set; }
     }
 }

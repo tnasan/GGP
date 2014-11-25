@@ -1,0 +1,115 @@
+﻿@model GGP.Models.Inventory
+
+@{
+    ViewBag.Title = "เพิ่ม Stock";
+}
+
+<h2>เพิ่ม</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Stock</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyId, "บริษัท", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>)ViewBag.Companies, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerId, "ลูกค้า", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemName, "สินค้า", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, "จำนวน", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", data_bind = "textInput: quantity" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitOfMeasurementId, "หน่วย", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.UnitOfMeasurementId, (IEnumerable<SelectListItem>)ViewBag.UMs, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UnitOfMeasurementId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PricePerUnit, "ราคา/หน่วย", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PricePerUnit, new { htmlAttributes = new { @class = "form-control", data_bind = "textInput: pricePerUnit" } })
+                @Html.ValidationMessageFor(model => model.PricePerUnit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">มูลค่า (Total)</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: quantity() * pricePerUnit()"></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Place, "สถานที่เก็บ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Remark, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="เพิ่ม" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/knockout")
+    <script>
+        function StockViewModel() {
+            var self = this;
+            self.quantity = ko.observable(0);
+            self.pricePerUnit = ko.observable(0);
+        }
+
+        ko.applyBindings(new StockViewModel());
+    </script>
+}

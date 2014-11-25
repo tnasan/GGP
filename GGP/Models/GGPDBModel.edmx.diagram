@@ -46,6 +46,10 @@
         <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_AccountType" />
         <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_Bank" />
         <AssociationConnector Association="GGPDBModel.FK_CompanyBankAccount_Company" />
+        <EntityTypeShape EntityType="GGPDBModel.Inventory" Width="1.5" PointX="10" PointY="8.875" />
+        <AssociationConnector Association="GGPDBModel.FK_Inventory_Customer" />
+        <AssociationConnector Association="GGPDBModel.FK_Inventory_Company" />
+        <AssociationConnector Association="GGPDBModel.FK_Inventory_UnifOfMeasurement" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

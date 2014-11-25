@@ -1,0 +1,101 @@
+﻿@model IEnumerable<GGP.Models.Inventory>
+
+@{
+    ViewBag.Title = "Stock";
+}
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datatables")
+}
+
+<h2>Stock</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table" id="stockTable">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                บริษัท
+            </th>
+            <th>
+                ลูกค้า
+            </th>
+            <th>
+                สินค้า
+            </th>
+            <th>
+                จำนวน
+            </th>
+            <th>
+                หน่วย
+            </th>
+            <th>
+                ราคา/หน่วย
+            </th>
+            <th>
+                มูลค่า (Total)
+            </th>
+            <th>
+                สถานที่เก็บ
+            </th>
+            <th>
+                Remark
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @item.Company.Name
+                </td>
+                <td>
+                    @item.Customer.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @item.UnifOfMeasurement.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerUnit)
+                </td>
+                <td>
+                    @(item.Quantity * item.PricePerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remark)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#stockTable").DataTable();
+    </script>
+}

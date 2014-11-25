@@ -47,5 +47,6 @@ namespace GGP.Models
         public virtual DbSet<BillStatus> BillStatus { get; set; }
         public virtual DbSet<AccountType> AccountTypes { get; set; }
         public virtual DbSet<CompanyBankAccount> CompanyBankAccounts { get; set; }
+        public virtual DbSet<Inventory> Inventories { get; set; }
     }
 }

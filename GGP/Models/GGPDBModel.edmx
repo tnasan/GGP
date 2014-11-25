@@ -195,6 +195,21 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" Nullable="false" />
+          <Property Name="CustomerId" Type="bigint" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="UnitOfMeasurementId" Type="bigint" Nullable="false" />
+          <Property Name="PricePerUnit" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Place" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Supplier">
           <Key>
             <PropertyRef Name="Id" />
@@ -440,6 +455,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Inventory_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_UnifOfMeasurement">
+          <End Role="UnifOfMeasurement" Type="Self.UnifOfMeasurement" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnifOfMeasurement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="UnitOfMeasurementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SupplierContact">
           <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
           <End Role="SupplierContact" Type="Self.SupplierContact" Multiplicity="*" />
@@ -472,6 +523,7 @@
           <EntitySet Name="Company" EntityType="Self.Company" Schema="General" store:Type="Tables" />
           <EntitySet Name="CompanyBankAccount" EntityType="Self.CompanyBankAccount" Schema="General" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="Stock" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="UnifOfMeasurement" EntityType="Self.UnifOfMeasurement" Schema="UnitOfMeasurement" store:Type="Tables" />
@@ -546,6 +598,18 @@
           <AssociationSet Name="FK_Employee_WorkingStatus" Association="Self.FK_Employee_WorkingStatus">
             <End Role="WorkingStatus" EntitySet="WorkingStatus" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Company" Association="Self.FK_Inventory_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Customer" Association="Self.FK_Inventory_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_UnifOfMeasurement" Association="Self.FK_Inventory_UnifOfMeasurement">
+            <End Role="UnifOfMeasurement" EntitySet="UnifOfMeasurement" />
+            <End Role="Inventory" EntitySet="Inventory" />
           </AssociationSet>
           <AssociationSet Name="FK_SupplierContact" Association="Self.FK_SupplierContact">
             <End Role="Supplier" EntitySet="Supplier" />
@@ -655,6 +719,19 @@
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyBankAccount" EntitySet="CompanyBankAccounts" />
           </AssociationSet>
+          <EntitySet Name="Inventories" EntityType="GGPDBModel.Inventory" />
+          <AssociationSet Name="FK_Inventory_Customer" Association="GGPDBModel.FK_Inventory_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_Company" Association="GGPDBModel.FK_Inventory_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventory_UnifOfMeasurement" Association="GGPDBModel.FK_Inventory_UnifOfMeasurement">
+            <End Role="UnifOfMeasurement" EntitySet="UnifOfMeasurements" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ARCheque">
           <Key>
@@ -721,6 +798,7 @@
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bills" Relationship="GGPDBModel.FK_Bill_Customer" FromRole="Customer" ToRole="Bill" />
           <NavigationProperty Name="CustomerContacts" Relationship="GGPDBModel.FK_CustomerContact" FromRole="Customer" ToRole="CustomerContact" />
+          <NavigationProperty Name="Inventories" Relationship="GGPDBModel.FK_Inventory_Customer" FromRole="Customer" ToRole="Inventory" />
         </EntityType>
         <EntityType Name="CustomerContact">
           <Key>
@@ -842,6 +920,7 @@
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bills" Relationship="GGPDBModel.FK_Bill_Company" FromRole="Company" ToRole="Bill" />
           <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_Company" FromRole="Company" ToRole="CompanyBankAccount" />
+          <NavigationProperty Name="Inventories" Relationship="GGPDBModel.FK_Inventory_Company" FromRole="Company" ToRole="Inventory" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -881,6 +960,7 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Inventories" Relationship="GGPDBModel.FK_Inventory_UnifOfMeasurement" FromRole="UnifOfMeasurement" ToRole="Inventory" />
         </EntityType>
         <Association Name="FK_ARCheque_ARPayment">
           <End Type="GGPDBModel.ARPayment" Role="ARPayment" Multiplicity="1" />
@@ -1141,6 +1221,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
+          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="UnitOfMeasurementId" Type="Int64" Nullable="false" />
+          <Property Name="PricePerUnit" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Place" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="GGPDBModel.FK_Inventory_Customer" FromRole="Inventory" ToRole="Customer" />
+          <NavigationProperty Name="Company" Relationship="GGPDBModel.FK_Inventory_Company" FromRole="Inventory" ToRole="Company" />
+          <NavigationProperty Name="UnifOfMeasurement" Relationship="GGPDBModel.FK_Inventory_UnifOfMeasurement" FromRole="Inventory" ToRole="UnifOfMeasurement" />
+        </EntityType>
+        <Association Name="FK_Inventory_Customer">
+          <End Type="GGPDBModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="GGPDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_Company">
+          <End Type="GGPDBModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="GGPDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventory_UnifOfMeasurement">
+          <End Type="GGPDBModel.UnifOfMeasurement" Role="UnifOfMeasurement" Multiplicity="1" />
+          <End Type="GGPDBModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnifOfMeasurement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="UnitOfMeasurementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1380,6 +1514,22 @@
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventories">
+            <EntityTypeMapping TypeName="GGPDBModel.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="PricePerUnit" ColumnName="PricePerUnit" />
+                <ScalarProperty Name="UnitOfMeasurementId" ColumnName="UnitOfMeasurementId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
