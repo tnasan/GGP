@@ -17,7 +17,7 @@ namespace GGP.Models
         public long Id { get; set; }
         public string Code { get; set; }
         public long CompanyId { get; set; }
-        public long CustomerId { get; set; }
+        public Nullable<long> CustomerId { get; set; }
         public string ItemName { get; set; }
         public decimal Quantity { get; set; }
         public long UnitOfMeasurementId { get; set; }

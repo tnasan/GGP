@@ -85,6 +85,7 @@ namespace GGP.Controllers
                 dbBill.CompanyId = bill.CompanyId;
                 dbBill.BillDate = bill.BillDate;
                 dbBill.BillStatusId = bill.BillStatusId;
+                dbBill.Remark = bill.Remark;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");

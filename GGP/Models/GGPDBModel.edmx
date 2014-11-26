@@ -35,6 +35,7 @@
           <Property Name="BillDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerId" Type="bigint" Nullable="false" />
           <Property Name="BillStatusId" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BillARPayment">
           <Key>
@@ -202,7 +203,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="CompanyId" Type="bigint" Nullable="false" />
-          <Property Name="CustomerId" Type="bigint" Nullable="false" />
+          <Property Name="CustomerId" Type="bigint" />
           <Property Name="ItemName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="UnitOfMeasurementId" Type="bigint" Nullable="false" />
@@ -468,7 +469,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Inventory_Customer">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -732,7 +733,7 @@
             <End Role="UnifOfMeasurement" EntitySet="UnifOfMeasurements" />
             <End Role="Inventory" EntitySet="Inventories" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="ARCheque">
           <Key>
             <PropertyRef Name="ARPaymentId" />
@@ -773,6 +774,7 @@
           <NavigationProperty Name="BillARPayments" Relationship="GGPDBModel.FK_BillARPayment_Bill" FromRole="Bill" ToRole="BillARPayment" />
           <Property Name="BillStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BillStatus" Relationship="GGPDBModel.FK_Bill_BillStatus" FromRole="Bill" ToRole="BillStatu" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="BillARPayment">
           <Key>
@@ -1228,7 +1230,7 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="CompanyId" Type="Int64" Nullable="false" />
-          <Property Name="CustomerId" Type="Int64" Nullable="false" />
+          <Property Name="CustomerId" Type="Int64" />
           <Property Name="ItemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
           <Property Name="UnitOfMeasurementId" Type="Int64" Nullable="false" />
@@ -1240,7 +1242,7 @@
           <NavigationProperty Name="UnifOfMeasurement" Relationship="GGPDBModel.FK_Inventory_UnifOfMeasurement" FromRole="Inventory" ToRole="UnifOfMeasurement" />
         </EntityType>
         <Association Name="FK_Inventory_Customer">
-          <End Type="GGPDBModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="GGPDBModel.Customer" Role="Customer" Multiplicity="0..1" />
           <End Type="GGPDBModel.Inventory" Role="Inventory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Customer">
@@ -1305,6 +1307,7 @@
           <EntitySetMapping Name="Bills">
             <EntityTypeMapping TypeName="GGPDBModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="BillStatusId" ColumnName="BillStatusId" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="BillDate" ColumnName="BillDate" />

@@ -12,14 +12,14 @@ namespace GGP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Bill
     {
         public Bill()
         {
             this.BillARPayments = new HashSet<BillARPayment>();
         }
-    
+
         public long Id { get; set; }
         [Required]
         public string Number { get; set; }
@@ -34,6 +34,7 @@ namespace GGP.Models
         public long CustomerId { get; set; }
         [Required]
         public int BillStatusId { get; set; }
+        public string Remark { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual Customer Customer { get; set; }
