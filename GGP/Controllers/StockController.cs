@@ -104,7 +104,8 @@ namespace GGP.Controllers
             using (GGPDBEntities db = new GGPDBEntities())
             {
                 List<Statistic> statistics = new List<Statistic>();
-                statistics.Add(new Statistic
+                statistics.Add(
+                    new Statistic
                     {
                         GroupName = "ภาพรวม",
                         ReportItems = new List<StatisticItem>()
@@ -112,21 +113,23 @@ namespace GGP.Controllers
                             new StatisticItem
                             {
                                 Key = "มูลค่าทั้งหมด",
-                                Value = db.Inventories.Sum(x => x.PricePerUnit * x.Quantity).ToString()
+                                Value = db.Inventories.Any() ? db.Inventories.Sum(x => x.PricePerUnit * x.Quantity).ToString() : "0"
                             }
                         }
                     });
-                statistics.Add(new Statistic
+                statistics.Add(
+                    new Statistic
                     {
                         GroupName = "แยกตามลูกค้า",
                         ReportItems = db.Inventories.GroupBy(x => x.Customer).Select(x =>
                         new StatisticItem
                         {
                             Key = x.Key.Name,
-                            Value = x.Sum(y => y.PricePerUnit * y.Quantity).ToString()
+                            Value = x.Any() ? x.Sum(y => y.PricePerUnit * y.Quantity).ToString() : "0"
                         }).ToList()
                     });
-                statistics.Add(new Statistic
+                statistics.Add(
+                    new Statistic
                     {
                         GroupName = "แยกตามหน่วยสินค้า",
                         ReportItems = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).Select(x =>
