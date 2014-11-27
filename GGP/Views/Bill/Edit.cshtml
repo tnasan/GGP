@@ -38,7 +38,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BillDate, "วันที่วางบิล", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
-                @Html.TextBoxFor(model => model.BillDate, DateTime.Today.ToShortDateString(), new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: birthDate", data_date_language = "th" })
+                @Html.TextBoxFor(model => model.BillDate, Model.BillDate.ToShortDateString(), new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_bind = "textInput: birthDate", data_date_language = "th" })
                 @Html.ValidationMessageFor(model => model.BillDate, "", new { @class = "text-danger" })
             </div>
         </div>
