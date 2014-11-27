@@ -43,13 +43,11 @@ namespace GGP
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                       "~/Scripts/moment-with-locales*"));
 
-            bundles.Add(new StyleBundle("~/Content/css/jquery-datatables").Include(
-                      "~/Content/dataTables.bootstrap.css"));
+            bundles.Add(new StyleBundle("~/Content/css/jquery-datatables", "//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-datatables", "//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jquery-datatables-bootstrap").Include(
-                      "~/Scripts/dataTables.bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery-datatables-bootstrap", "//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

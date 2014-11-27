@@ -62,4 +62,3 @@
 /// <reference path="locales/bootstrap-datepicker.zh-tw.js" />
 /// <reference path="moment.min.js" />
 /// <reference path="moment-with-locales.min.js" />
-/// <reference path="datatables.bootstrap.js" />
