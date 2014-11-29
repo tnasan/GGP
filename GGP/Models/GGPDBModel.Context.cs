@@ -25,7 +25,6 @@ namespace GGP.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ARCheque> ARCheques { get; set; }
         public virtual DbSet<ARPayment> ARPayments { get; set; }
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<BillARPayment> BillARPayments { get; set; }
@@ -48,5 +47,6 @@ namespace GGP.Models
         public virtual DbSet<AccountType> AccountTypes { get; set; }
         public virtual DbSet<CompanyBankAccount> CompanyBankAccounts { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
+        public virtual DbSet<ARCheque> ARCheques { get; set; }
     }
 }

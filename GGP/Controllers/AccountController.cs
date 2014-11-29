@@ -97,6 +97,36 @@ namespace GGP.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View(AccountHelper.CurrentAccount);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(Account account)
+        {
+            if (String.IsNullOrEmpty(account.Password) || String.IsNullOrEmpty(account.Password.Trim()))
+            {
+                return View(account);
+            }
+
+            Tuple<string, string> passwordAndSalt = EncryptionHelper.GetHashPassword(account.Password);
+
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                Account dbAccount = db.Accounts.Find(AccountHelper.CurrentAccount.Username);
+                
+                dbAccount.Password = passwordAndSalt.Item1;
+                dbAccount.Salt = passwordAndSalt.Item2;
+                db.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         [HttpPost]
         public JsonResult CheckUsernameExist(string userName)
         {

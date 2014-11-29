@@ -10,10 +10,12 @@
             <PropertyRef Name="ARPaymentId" />
           </Key>
           <Property Name="ARPaymentId" Type="bigint" Nullable="false" />
-          <Property Name="ReceiptDate" Type="date" Nullable="false" />
           <Property Name="BankId" Type="bigint" Nullable="false" />
           <Property Name="ChequeNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="ChequeStatusId" Type="int" Nullable="false" />
+          <Property Name="ChequeDate" Type="date" Nullable="false" />
+          <Property Name="DepositedDate" Type="date" />
+          <Property Name="ClearOrRejectDate" Type="date" />
         </EntityType>
         <EntityType Name="ARPayment">
           <Key>
@@ -622,7 +624,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="GGPDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="GGPDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ARCheques" EntityType="GGPDBModel.ARCheque" />
           <EntitySet Name="ARPayments" EntityType="GGPDBModel.ARPayment" />
           <EntitySet Name="Bills" EntityType="GGPDBModel.Bill" />
           <EntitySet Name="BillARPayments" EntityType="GGPDBModel.BillARPayment" />
@@ -641,18 +642,6 @@
           <EntitySet Name="Suppliers" EntityType="GGPDBModel.Supplier" />
           <EntitySet Name="SupplierContacts" EntityType="GGPDBModel.SupplierContact" />
           <EntitySet Name="UnifOfMeasurements" EntityType="GGPDBModel.UnifOfMeasurement" />
-          <AssociationSet Name="FK_ARCheque_ARPayment" Association="GGPDBModel.FK_ARCheque_ARPayment">
-            <End Role="ARPayment" EntitySet="ARPayments" />
-            <End Role="ARCheque" EntitySet="ARCheques" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ARCheque_Bank" Association="GGPDBModel.FK_ARCheque_Bank">
-            <End Role="Bank" EntitySet="Banks" />
-            <End Role="ARCheque" EntitySet="ARCheques" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ARCheque_ChequeStatus" Association="GGPDBModel.FK_ARCheque_ChequeStatus">
-            <End Role="ChequeStatu" EntitySet="ChequeStatus" />
-            <End Role="ARCheque" EntitySet="ARCheques" />
-          </AssociationSet>
           <AssociationSet Name="FK_ARPayment_PaymentMethod" Association="GGPDBModel.FK_ARPayment_PaymentMethod">
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
             <End Role="ARPayment" EntitySet="ARPayments" />
@@ -733,20 +722,20 @@
             <End Role="UnifOfMeasurement" EntitySet="UnifOfMeasurements" />
             <End Role="Inventory" EntitySet="Inventories" />
           </AssociationSet>
+          <EntitySet Name="ARCheques" EntityType="GGPDBModel.ARCheque" />
+          <AssociationSet Name="FK_ARCheque_ARPayment" Association="GGPDBModel.FK_ARCheque_ARPayment">
+            <End Role="ARPayment" EntitySet="ARPayments" />
+            <End Role="ARCheque" EntitySet="ARCheques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ARCheque_Bank" Association="GGPDBModel.FK_ARCheque_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="ARCheque" EntitySet="ARCheques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ARCheque_ChequeStatus" Association="GGPDBModel.FK_ARCheque_ChequeStatus">
+            <End Role="ChequeStatus" EntitySet="ChequeStatus" />
+            <End Role="ARCheque" EntitySet="ARCheques" />
+          </AssociationSet>
           </EntityContainer>
-        <EntityType Name="ARCheque">
-          <Key>
-            <PropertyRef Name="ARPaymentId" />
-          </Key>
-          <Property Name="ARPaymentId" Type="Int64" Nullable="false" />
-          <Property Name="ReceiptDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="BankId" Type="Int64" Nullable="false" />
-          <Property Name="ChequeNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="ChequeStatusId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ARPayment" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARCheque" ToRole="ARPayment" />
-          <NavigationProperty Name="Bank" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="ARCheque" ToRole="Bank" />
-          <NavigationProperty Name="ChequeStatus" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ARCheque" ToRole="ChequeStatu" />
-        </EntityType>
         <EntityType Name="ARPayment">
           <Key>
             <PropertyRef Name="Id" />
@@ -755,9 +744,9 @@
           <Property Name="PaymentMethodId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
           <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="ARCheque" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARPayment" ToRole="ARCheque" />
           <NavigationProperty Name="PaymentMethod" Relationship="GGPDBModel.FK_ARPayment_PaymentMethod" FromRole="ARPayment" ToRole="PaymentMethod" />
           <NavigationProperty Name="BillARPayments" Relationship="GGPDBModel.FK_BillARPayment_ARPayment" FromRole="ARPayment" ToRole="BillARPayment" />
+          <NavigationProperty Name="ARCheque" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARPayment" ToRole="ARCheque" />
         </EntityType>
         <EntityType Name="Bill">
           <Key>
@@ -897,8 +886,8 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Abbreviation" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ARCheques" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="Bank" ToRole="ARCheque" />
           <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_Bank" FromRole="Bank" ToRole="CompanyBankAccount" />
+          <NavigationProperty Name="ARCheques" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="Bank" ToRole="ARCheque" />
         </EntityType>
         <EntityType Name="ChequeStatus">
           <Key>
@@ -906,7 +895,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ARCheques" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ChequeStatu" ToRole="ARCheque" />
+          <NavigationProperty Name="ARCheques" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ChequeStatus" ToRole="ARCheque" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -964,42 +953,6 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Inventories" Relationship="GGPDBModel.FK_Inventory_UnifOfMeasurement" FromRole="UnifOfMeasurement" ToRole="Inventory" />
         </EntityType>
-        <Association Name="FK_ARCheque_ARPayment">
-          <End Type="GGPDBModel.ARPayment" Role="ARPayment" Multiplicity="1" />
-          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ARPayment">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ARCheque">
-              <PropertyRef Name="ARPaymentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ARCheque_Bank">
-          <End Type="GGPDBModel.Bank" Role="Bank" Multiplicity="1" />
-          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Bank">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ARCheque">
-              <PropertyRef Name="BankId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ARCheque_ChequeStatus">
-          <End Type="GGPDBModel.ChequeStatus" Role="ChequeStatu" Multiplicity="1" />
-          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChequeStatu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ARCheque">
-              <PropertyRef Name="ChequeStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ARPayment_PaymentMethod">
           <End Type="GGPDBModel.PaymentMethod" Role="PaymentMethod" Multiplicity="1" />
           <End Type="GGPDBModel.ARPayment" Role="ARPayment" Multiplicity="*" />
@@ -1277,23 +1230,63 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ARCheque">
+          <Key>
+            <PropertyRef Name="ARPaymentId" />
+          </Key>
+          <Property Name="ARPaymentId" Type="Int64" Nullable="false" />
+          <Property Name="BankId" Type="Int64" Nullable="false" />
+          <Property Name="ChequeNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeStatusId" Type="Int32" Nullable="false" />
+          <Property Name="ChequeDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DepositedDate" Type="DateTime" Precision="0" />
+          <Property Name="ClearOrRejectDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ARPayment" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARCheque" ToRole="ARPayment" />
+          <NavigationProperty Name="Bank" Relationship="GGPDBModel.FK_ARCheque_Bank" FromRole="ARCheque" ToRole="Bank" />
+          <NavigationProperty Name="ChequeStatus" Relationship="GGPDBModel.FK_ARCheque_ChequeStatus" FromRole="ARCheque" ToRole="ChequeStatus" />
+        </EntityType>
+        <Association Name="FK_ARCheque_ARPayment">
+          <End Type="GGPDBModel.ARPayment" Role="ARPayment" Multiplicity="1" />
+          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ARPayment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ARCheque">
+              <PropertyRef Name="ARPaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ARCheque_Bank">
+          <End Type="GGPDBModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ARCheque">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ARCheque_ChequeStatus">
+          <End Type="GGPDBModel.ChequeStatus" Role="ChequeStatus" Multiplicity="1" />
+          <End Type="GGPDBModel.ARCheque" Role="ARCheque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChequeStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ARCheque">
+              <PropertyRef Name="ChequeStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="GGPDBModelStoreContainer" CdmEntityContainer="GGPDBEntities">
-          <EntitySetMapping Name="ARCheques">
-            <EntityTypeMapping TypeName="GGPDBModel.ARCheque">
-              <MappingFragment StoreEntitySet="ARCheque">
-                <ScalarProperty Name="ChequeStatusId" ColumnName="ChequeStatusId" />
-                <ScalarProperty Name="ChequeNumber" ColumnName="ChequeNumber" />
-                <ScalarProperty Name="BankId" ColumnName="BankId" />
-                <ScalarProperty Name="ReceiptDate" ColumnName="ReceiptDate" />
-                <ScalarProperty Name="ARPaymentId" ColumnName="ARPaymentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ARPayments">
             <EntityTypeMapping TypeName="GGPDBModel.ARPayment">
               <MappingFragment StoreEntitySet="ARPayment">
@@ -1533,6 +1526,19 @@
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ARCheques">
+            <EntityTypeMapping TypeName="GGPDBModel.ARCheque">
+              <MappingFragment StoreEntitySet="ARCheque">
+                <ScalarProperty Name="ClearOrRejectDate" ColumnName="ClearOrRejectDate" />
+                <ScalarProperty Name="DepositedDate" ColumnName="DepositedDate" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeStatusId" ColumnName="ChequeStatusId" />
+                <ScalarProperty Name="ChequeNumber" ColumnName="ChequeNumber" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="ARPaymentId" ColumnName="ARPaymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -15,10 +15,12 @@ namespace GGP.Models
     public partial class ARCheque
     {
         public long ARPaymentId { get; set; }
-        public System.DateTime ReceiptDate { get; set; }
         public long BankId { get; set; }
         public string ChequeNumber { get; set; }
         public int ChequeStatusId { get; set; }
+        public System.DateTime ChequeDate { get; set; }
+        public Nullable<System.DateTime> DepositedDate { get; set; }
+        public Nullable<System.DateTime> ClearOrRejectDate { get; set; }
     
         public virtual ARPayment ARPayment { get; set; }
         public virtual Bank Bank { get; set; }
