@@ -123,7 +123,7 @@ namespace GGP.Controllers
                 dbAccount.Salt = passwordAndSalt.Item2;
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Logout","Authentication");
             }
         }
 
