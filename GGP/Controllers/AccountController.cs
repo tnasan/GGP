@@ -21,6 +21,11 @@ namespace GGP.Controllers
 
         public ActionResult Create()
         {
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                ViewBag.Roles = new SelectList(db.Roles.ToList(), "Id", "Name");
+            }
+
             return View(new Account());
         }
 
@@ -70,6 +75,8 @@ namespace GGP.Controllers
                 account.Password = String.Empty;
                 account.Salt = String.Empty;
 
+                ViewBag.Roles = new SelectList(db.Roles.ToList(), "Id", "Name");
+
                 return View(account);
             }
         }
@@ -118,12 +125,12 @@ namespace GGP.Controllers
             using (GGPDBEntities db = new GGPDBEntities())
             {
                 Account dbAccount = db.Accounts.Find(AccountHelper.CurrentAccount.Username);
-                
+
                 dbAccount.Password = passwordAndSalt.Item1;
                 dbAccount.Salt = passwordAndSalt.Item2;
                 db.SaveChanges();
 
-                return RedirectToAction("Logout","Authentication");
+                return RedirectToAction("Logout", "Authentication");
             }
         }
 

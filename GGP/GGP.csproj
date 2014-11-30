@@ -220,6 +220,9 @@
     <Compile Include="Models\PaymentMethod.cs">
       <DependentUpon>GGPDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>GGPDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Statistic.cs" />
     <Compile Include="Models\StatisticItem.cs" />
     <Compile Include="Models\Supplier.cs">

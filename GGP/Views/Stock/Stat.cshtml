@@ -14,7 +14,7 @@
         </div>
         <table class="table table-hover table-responsive">
             <tbody>
-                @foreach (var item in group.ReportItems)
+                @foreach (var item in group.StatisticItems)
                 {
                     decimal value = 0;
                     Decimal.TryParse(item.Value.ToString(), out value);

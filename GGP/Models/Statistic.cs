@@ -8,6 +8,6 @@ namespace GGP.Models
     public class Statistic
     {
         public string GroupName { get; set; }
-        public IEnumerable<StatisticItem> ReportItems { get; set; }
+        public IEnumerable<StatisticItem> StatisticItems { get; set; }
     }
 }

@@ -108,7 +108,7 @@ namespace GGP.Controllers
                     new Statistic
                     {
                         GroupName = "ภาพรวม",
-                        ReportItems = new List<StatisticItem>()
+                        StatisticItems = new List<StatisticItem>()
                         {
                             new StatisticItem
                             {
@@ -121,7 +121,7 @@ namespace GGP.Controllers
                     new Statistic
                     {
                         GroupName = "แยกตามลูกค้า",
-                        ReportItems = db.Inventories.GroupBy(x => x.Customer).Select(x =>
+                        StatisticItems = db.Inventories.GroupBy(x => x.Customer).Select(x =>
                         new StatisticItem
                         {
                             Key = x.Key.Name,
@@ -132,7 +132,7 @@ namespace GGP.Controllers
                     new Statistic
                     {
                         GroupName = "แยกตามหน่วยสินค้า",
-                        ReportItems = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).Select(x =>
+                        StatisticItems = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).Select(x =>
                         new StatisticItem
                         {
                             Key = x.Name,

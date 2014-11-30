@@ -48,5 +48,6 @@ namespace GGP.Models
         public virtual DbSet<CompanyBankAccount> CompanyBankAccounts { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<ARCheque> ARCheques { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

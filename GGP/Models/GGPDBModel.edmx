@@ -143,6 +143,7 @@
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="Salt" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AccountType">
           <Key>
@@ -198,6 +199,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Inventory">
           <Key>
             <PropertyRef Name="Id" />
@@ -242,6 +250,18 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Account_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AdditionalDocument_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="AdditionalDocument" Type="Self.AdditionalDocument" Multiplicity="0..1" />
@@ -526,10 +546,15 @@
           <EntitySet Name="Company" EntityType="Self.Company" Schema="General" store:Type="Tables" />
           <EntitySet Name="CompanyBankAccount" EntityType="Self.CompanyBankAccount" Schema="General" store:Type="Tables" />
           <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="General" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="Stock" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="SupplierContact" EntityType="Self.SupplierContact" Schema="Supplier" store:Type="Tables" />
           <EntitySet Name="UnifOfMeasurement" EntityType="Self.UnifOfMeasurement" Schema="UnitOfMeasurement" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Role" Association="Self.FK_Account_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
           <AssociationSet Name="FK_AdditionalDocument_Employee" Association="Self.FK_AdditionalDocument_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="AdditionalDocument" EntitySet="AdditionalDocument" />
@@ -735,6 +760,11 @@
             <End Role="ChequeStatus" EntitySet="ChequeStatus" />
             <End Role="ARCheque" EntitySet="ARCheques" />
           </AssociationSet>
+          <EntitySet Name="Roles" EntityType="GGPDBModel.Role" />
+          <AssociationSet Name="FK_Account_Role" Association="GGPDBModel.FK_Account_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ARPayment">
           <Key>
@@ -878,6 +908,8 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="Salt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Employees" Relationship="GGPDBModel.FK_Employee_Account" FromRole="Account" ToRole="Employee" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="GGPDBModel.FK_Account_Role" FromRole="Account" ToRole="Role" />
         </EntityType>
         <EntityType Name="Bank">
           <Key>
@@ -1281,6 +1313,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accounts" Relationship="GGPDBModel.FK_Account_Role" FromRole="Role" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_Account_Role">
+          <End Type="GGPDBModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="GGPDBModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1410,6 +1462,7 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="GGPDBModel.Account">
               <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Salt" ColumnName="Salt" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
@@ -1539,6 +1592,14 @@
                 <ScalarProperty Name="ChequeNumber" ColumnName="ChequeNumber" />
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="ARPaymentId" ColumnName="ARPaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="GGPDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
