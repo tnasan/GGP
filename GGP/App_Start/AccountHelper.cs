@@ -55,7 +55,7 @@ namespace GGP
             {
                 if (HttpContext.Current.User != null)
                 {
-                    _account = db.Accounts.Find(HttpContext.Current.User.Identity.Name);
+                    _account = db.Accounts.Include("Role").Include("Employees").SingleOrDefault(x => x.Username == HttpContext.Current.User.Identity.Name);
                 }
                 else
                 {

@@ -14,14 +14,22 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                return View(db.ARPayments.Include("ARCheque").ToList());
+                return View(db.ARPayments.Include("PaymentMethod").Include("ARCheque").ToList());
             }
-            return View();
         }
 
         public ActionResult Create()
         {
-            return View(new ARPayment());
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                ViewBag.PaymentMethods = db.PaymentMethods.ToList();
+                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
+                ViewBag.Banks = new SelectList(db.Banks.ToList(), "Id", "Abbreviation");
+                ViewBag.ChequeStatuses = new SelectList(db.ChequeStatus.ToList(), "Id", "Name");
+
+                return View(new ARPayment());
+            }
+
         }
 
         [HttpPost]
@@ -30,6 +38,12 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
+                PaymentMethod chequeMethod = db.PaymentMethods.Single(x => x.Name == "เช็ค");
+                if (payment.PaymentMethodId != chequeMethod.Id)
+                {
+                    payment.ARCheque = null;
+                }
+
                 db.ARPayments.Add(payment);
                 db.SaveChanges();
 
@@ -46,11 +60,16 @@ namespace GGP.Controllers
 
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                ARPayment payment = db.ARPayments.Find(id);
+                ARPayment payment = db.ARPayments.Include("ARCheque").Single(x => x.Id == id);
                 if (payment == null)
                 {
                     return RedirectToAction("Index");
                 }
+
+                ViewBag.PaymentMethods = db.PaymentMethods.ToList();
+                ViewBag.Companies = new SelectList(db.Companies.ToList(), "Id", "Code");
+                ViewBag.Banks = new SelectList(db.Banks.ToList(), "Id", "Abbreviation");
+                ViewBag.ChequeStatuses = new SelectList(db.ChequeStatus.ToList(), "Id", "Name");
 
                 return View(payment);
             }
@@ -62,8 +81,9 @@ namespace GGP.Controllers
         {
             using (GGPDBEntities db = new GGPDBEntities())
             {
-                PaymentMethod chequeMethod = db.PaymentMethods.Single(x=>x.Name == "เช้ค");
+                PaymentMethod chequeMethod = db.PaymentMethods.Single(x => x.Name == "เช็ค");
                 ARPayment dbPayment = db.ARPayments.Find(payment.Id);
+                dbPayment.CompanyId = payment.CompanyId;
                 dbPayment.PaymentMethodId = payment.PaymentMethodId;
                 dbPayment.Amount = payment.Amount;
                 dbPayment.PaymentDate = payment.PaymentDate;
@@ -80,6 +100,7 @@ namespace GGP.Controllers
                 }
                 else
                 {
+                    db.ARCheques.Remove(db.ARCheques.Find(payment.Id));
                     dbPayment.ARCheque = null;
                 }
 

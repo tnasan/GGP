@@ -11,6 +11,7 @@ namespace GGP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class ARPayment
     {
@@ -20,12 +21,19 @@ namespace GGP.Models
         }
     
         public long Id { get; set; }
+        [Required]
         public int PaymentMethodId { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public decimal Amount { get; set; }
+        [Required]
         public System.DateTime PaymentDate { get; set; }
+        [Required]
+        public long CompanyId { get; set; }
     
-        public virtual ARCheque ARCheque { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
         public virtual ICollection<BillARPayment> BillARPayments { get; set; }
+        public virtual ARCheque ARCheque { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

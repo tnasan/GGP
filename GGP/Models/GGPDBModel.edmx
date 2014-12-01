@@ -22,6 +22,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="bigint" Nullable="false" />
           <Property Name="PaymentMethodId" Type="int" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="PaymentDate" Type="datetime" Nullable="false" />
@@ -310,6 +311,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ARPayment_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="ARPayment" Type="Self.ARPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ARPayment">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ARPayment_PaymentMethod">
           <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="1" />
           <End Role="ARPayment" Type="Self.ARPayment" Multiplicity="*" />
@@ -571,6 +584,10 @@
             <End Role="ChequeStatus" EntitySet="ChequeStatus" />
             <End Role="ARCheque" EntitySet="ARCheque" />
           </AssociationSet>
+          <AssociationSet Name="FK_ARPayment_Company" Association="Self.FK_ARPayment_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="ARPayment" EntitySet="ARPayment" />
+          </AssociationSet>
           <AssociationSet Name="FK_ARPayment_PaymentMethod" Association="Self.FK_ARPayment_PaymentMethod">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
             <End Role="ARPayment" EntitySet="ARPayment" />
@@ -765,6 +782,10 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="Account" EntitySet="Accounts" />
           </AssociationSet>
+          <AssociationSet Name="FK_ARPayment_Company" Association="GGPDBModel.FK_ARPayment_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="ARPayment" EntitySet="ARPayments" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ARPayment">
           <Key>
@@ -777,6 +798,8 @@
           <NavigationProperty Name="PaymentMethod" Relationship="GGPDBModel.FK_ARPayment_PaymentMethod" FromRole="ARPayment" ToRole="PaymentMethod" />
           <NavigationProperty Name="BillARPayments" Relationship="GGPDBModel.FK_BillARPayment_ARPayment" FromRole="ARPayment" ToRole="BillARPayment" />
           <NavigationProperty Name="ARCheque" Relationship="GGPDBModel.FK_ARCheque_ARPayment" FromRole="ARPayment" ToRole="ARCheque" />
+          <Property Name="CompanyId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="GGPDBModel.FK_ARPayment_Company" FromRole="ARPayment" ToRole="Company" />
         </EntityType>
         <EntityType Name="Bill">
           <Key>
@@ -944,6 +967,7 @@
           <NavigationProperty Name="Bills" Relationship="GGPDBModel.FK_Bill_Company" FromRole="Company" ToRole="Bill" />
           <NavigationProperty Name="CompanyBankAccounts" Relationship="GGPDBModel.FK_CompanyBankAccount_Company" FromRole="Company" ToRole="CompanyBankAccount" />
           <NavigationProperty Name="Inventories" Relationship="GGPDBModel.FK_Inventory_Company" FromRole="Company" ToRole="Inventory" />
+          <NavigationProperty Name="ARPayments" Relationship="GGPDBModel.FK_ARPayment_Company" FromRole="Company" ToRole="ARPayment" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -1333,6 +1357,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ARPayment_Company">
+          <End Type="GGPDBModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="GGPDBModel.ARPayment" Role="ARPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ARPayment">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1342,6 +1378,7 @@
           <EntitySetMapping Name="ARPayments">
             <EntityTypeMapping TypeName="GGPDBModel.ARPayment">
               <MappingFragment StoreEntitySet="ARPayment">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />

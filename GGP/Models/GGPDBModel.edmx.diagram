@@ -52,6 +52,7 @@
         <AssociationConnector Association="GGPDBModel.FK_ARCheque_ChequeStatus" />
         <EntityTypeShape EntityType="GGPDBModel.Role" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="GGPDBModel.FK_Account_Role" />
+        <AssociationConnector Association="GGPDBModel.FK_ARPayment_Company" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

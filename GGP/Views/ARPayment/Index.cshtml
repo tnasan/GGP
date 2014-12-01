@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GGP.Models.ARPayment>
+
+@{
+    ViewBag.Title = "Payment";
+}
+
+@section styles
+{
+    @Styles.Render("~/Content/css/jquery-datatables")
+}
+
+<h2>Payment</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
+</p>
+<table class="table" id="arPaymentTable">
+    <thead>
+        <tr>
+            <th>
+                วันที่รับ้งิน
+            </th>
+            <th>
+                ประเถท
+            </th>
+            <th>
+                จำนวนเงิน
+            </th>
+            <th>
+                เลขที่เช็ค
+            </th>
+            <th>
+                วันที่บนเช็ค
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.PaymentDate.ToShortDateString()
+                </td>
+                <td>
+                    @item.PaymentMethod.Name
+                </td>
+                <td data-order="@item.Amount">
+                    @Html.DisplayFor(model => item.Amount)
+                </td>
+                <td>
+                    @(item.ARCheque != null ? item.ARCheque.ChequeNumber : "")
+                </td>
+                <td>
+                    @(item.ARCheque != null ? item.ARCheque.ChequeDate.ToShortDateString() : "")
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jquery-datatables")
+    @Scripts.Render("~/bundles/jquery-datatables-bootstrap")
+    <script>
+        $("#arPaymentTable").DataTable();
+    </script>
+}

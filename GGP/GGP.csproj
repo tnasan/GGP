@@ -412,10 +412,12 @@
     <Content Include="Views\Stock\Edit.cshtml" />
     <Content Include="Views\Stock\Stat.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\ARPayment\Index.cshtml" />
+    <Content Include="Views\ARPayment\Create.cshtml" />
+    <Content Include="Views\ARPayment\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ARPayment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

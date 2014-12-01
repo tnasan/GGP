@@ -1,0 +1,126 @@
+﻿@using GGP.Models
+@model GGP.Models.ARPayment
+
+@{
+    ViewBag.Title = "แก้ไข Payment";
+}
+
+@section Styles {
+    @Styles.Render("~/Content/css/bootstrap-datepicker")
+}
+
+<h2>แก้ไข</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Payment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentMethodId, "ประเภท", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @foreach (var item in (IEnumerable<PaymentMethod>)ViewBag.PaymentMethods)
+                {
+                    <label class="radio-inline">
+                        <input type="radio" name="PaymentMethodId" value="@item.Id" data-bind="checked: paymentMethodId" @(item.Id == Model.PaymentMethodId ? "checked" : "")> @item.Name
+                    </label>
+                }
+                @Html.ValidationMessageFor(model => model.PaymentMethodId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, "จำนวน", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentDate, "วันที่รับเงิน", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.PaymentDate, DateTime.Today.ToShortDateString(), new { @class = "form-control datepicker", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
+                @Html.ValidationMessageFor(model => model.PaymentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyId, "บริษัท", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(model => model.CompanyId, (IEnumerable<SelectListItem>)ViewBag.Companies, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" data-bind="visible: paymentMethodId() == 1">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        ข้อมูลเช็ค
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ARCheque.BankId, "ธนาคาร", new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.ARCheque.BankId, (IEnumerable<SelectListItem>)ViewBag.Banks, new { @class = "form-control", data_bind = "attr: { required: paymentMethodId() == 1 }" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ARCheque.ChequeNumber, "เลขที่เช็ค", new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.ARCheque.ChequeNumber, new { @class = "form-control", data_bind = "attr: { required: paymentMethodId() == 1 }" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ARCheque.ChequeDate, "วันที่เช็ค", new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.ARCheque.ChequeDate, DateTime.Today.ToShortDateString(), new { @class = "form-control datepicker", data_bind = "attr: { required: paymentMethodId() == 1 }", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "dd/mm/yyyy", data_date_language = "th" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ARCheque.ChequeStatusId, "สถานะเช็ค", new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.ARCheque.ChequeStatusId, (IEnumerable<SelectListItem>)ViewBag.ChequeStatuses, new { @class = "form-control", data_bind = "attr: { required: paymentMethodId() == 1 }" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="แก้ไข" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
+    @Scripts.Render("~/bundles/knockout")
+    <script>
+        jQuery.validator.methods.date = function (value, element) {
+            var dateRegex = /^(0?[1-9]\/|[12]\d\/|3[01]\/){2}(19|20)\d\d$/;
+            return this.optional(element) || dateRegex.test(value);
+        };
+    </script>
+    <script>
+        function ARPaymentViewModel() {
+            var self = this;
+            self.paymentMethodId = ko.observable("@(Model.PaymentMethodId > 0 ? Model.PaymentMethodId : 1)");
+        }
+
+        ko.applyBindings(new ARPaymentViewModel());
+    </script>
+}
