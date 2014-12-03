@@ -122,22 +122,22 @@ namespace GGP.Controllers
                     {
                         GroupName = "แยกตามลูกค้า",
                         StatisticItems = db.Inventories.GroupBy(x => x.Customer).Select(x =>
-                        new StatisticItem
-                        {
-                            Key = x.Key.Name,
-                            Value = x.Any() ? x.Sum(y => y.PricePerUnit * y.Quantity).ToString() : "0"
-                        }).ToList()
+                            new StatisticItem
+                            {
+                                Key = x.Key.Name,
+                                Value = x.Any() ? x.Sum(y => y.PricePerUnit * y.Quantity).ToString() : "0"
+                            }).ToList()
                     });
+
+                List<UnifOfMeasurement> umList = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).ToList();
+                List<StatisticItem> umStatList = umList.Select(x => new StatisticItem { Key = x.Name + " (มูลค่า)", Value = x.Inventories.Sum(y => y.Quantity * y.PricePerUnit).ToString() })
+                    .Union(umList.Select(x => new StatisticItem { Key = x.Name + " (หน่วย)", Value = x.Inventories.Sum(y => y.Quantity).ToString() })).ToList();
+                umStatList.OrderBy(x => x.Key);
                 statistics.Add(
                     new Statistic
                     {
                         GroupName = "แยกตามหน่วยสินค้า",
-                        StatisticItems = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).Select(x =>
-                        new StatisticItem
-                        {
-                            Key = x.Name,
-                            Value = x.Inventories.Sum(y => y.PricePerUnit * y.Quantity).ToString()
-                        }).ToList()
+                        StatisticItems = umStatList
                     });
                 return View(statistics);
             }

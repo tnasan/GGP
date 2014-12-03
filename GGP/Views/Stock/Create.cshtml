@@ -67,7 +67,7 @@
             <label class="control-label col-md-2">มูลค่า (Total)</label>
             <div class="col-md-2">
                 <p class="form-control-static">
-                    <span data-bind="text: quantity() * pricePerUnit()"></span>
+                    <span data-bind="text: (quantity() * pricePerUnit()).toFixed(2)"></span>
                 </p>
             </div>
         </div>
