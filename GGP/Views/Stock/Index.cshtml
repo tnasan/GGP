@@ -76,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.PricePerUnit)
                 </td>
                 <td>
-                    @(item.Quantity * item.PricePerUnit)
+                    @((item.Quantity * item.PricePerUnit).ToString("N2"))
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Place)
