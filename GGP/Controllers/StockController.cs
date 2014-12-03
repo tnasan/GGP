@@ -131,8 +131,7 @@ namespace GGP.Controllers
 
                 List<UnifOfMeasurement> umList = db.UnifOfMeasurements.Where(x => x.Inventories.Any()).ToList();
                 List<StatisticItem> umStatList = umList.Select(x => new StatisticItem { Key = x.Name + " (มูลค่า)", Value = x.Inventories.Sum(y => y.Quantity * y.PricePerUnit).ToString() })
-                    .Union(umList.Select(x => new StatisticItem { Key = x.Name + " (หน่วย)", Value = x.Inventories.Sum(y => y.Quantity).ToString() })).ToList();
-                umStatList.OrderBy(x => x.Key);
+                    .Union(umList.Select(x => new StatisticItem { Key = x.Name + " (หน่วย)", Value = x.Inventories.Sum(y => y.Quantity).ToString() })).OrderBy(x => x.Key).ToList();
                 statistics.Add(
                     new Statistic
                     {
