@@ -1,0 +1,189 @@
+﻿@using GGP.Models;
+@model IEnumerable<BillARPayment>
+@{
+    ViewBag.Title = "จ่าย";
+}
+
+<h2>จ่าย</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-9 form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                บริษัท
+            </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CompanyId", (IEnumerable<SelectListItem>)ViewBag.Companies, "เลือกบริษัท...", new { @class = "form-control", data_bind = "optionsCaption: 'เลือกบริษัท...', value: companyId, event: { change: bindBillAndPayment }" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                ลูกค้า
+            </label>
+            <div class="col-md-2">
+                @Html.DropDownList("CustomerId", (IEnumerable<SelectListItem>)ViewBag.Customers, "เลือกลูกค้า...", new { @class = "form-control", data_bind = "optionsCaption: 'เลือกลูกค้า...', value: customerId, event: { change: bindBillAndPayment }" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                บิล
+            </label>
+            <div class="col-md-4">
+                <div class="checkbox" data-bind="foreach: bills">
+                    <label>
+                        <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedBills">
+                        <span data-bind="text: Number"></span> มูลค่า: <span data-bind="text: Amount.toFixed(2)"></span> ค้าง: <span data-bind="text: Remaining.toFixed(2)"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                เงิน
+            </label>
+            <div class="col-md-4">
+                <div class="checkbox" data-bind="foreach: payments">
+                    <label>
+                        <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedPayments">
+                        <span data-bind="text: PaymentMethodName"></span><span data-bind="text: '(' + ChequeNumber + ')', visible: PaymentMethodName == 'เช็ค'"></span> วันที่: <span data-bind="text: moment(PaymentDate).format('DD/MM/YYYY')"></span> จำนวน: <span data-bind="text: Amount.toFixed(2)"></span> เหลือ: <span data-bind="text: Remaining.toFixed(2)"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" data-bind="visible: selectedBills().length > 0 && selectedPayments().length > 0">
+            <label class="control-label col-md-2">
+                รายการ
+            </label>
+            <div class="col-md-9">
+                <ul class="list-unstyled" data-bind="foreach: statements">
+                    <li class="clearfix">
+                        <div class="col-md-3">
+                            <select class="form-control" data-bind="options: $parent.selectedBills, optionsText: 'Number', optionsValue: 'Id', value: BillId, attr: { name: 'statements[' + $index() + '].BillId' }"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" data-bind="options: $parent.selectedPayments, optionsText: 'PaymentMethodName', optionsValue: 'Id', value: PaymentId, attr: { name: 'statements[' + $index() + '].ARPaymentId' }"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" data-bind="textInput: Amount, event: { keyup: $root.AddStatement }, attr: { name: 'statements[' + $index() + '].Amount', required: $parent.statements().length - 1 != $index() }">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-default" data-bind="enable: $root.statements().length > 1, click: $root.RemoveStatement"><span class="glyphicon glyphicon-trash"></span></button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <button type="submit" class="btn btn-default">บันทึก</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+            <ul class="list-unstyled">
+                <li><strong>Selected Bills</strong></li>
+                <li>
+                    <ul data-bind="foreach: selectedBills">
+                        <li><span data-bind="text: Number + ' ' + (Remaining - $parent.GetBillTotalApplied(Id)).toFixed(2)"></span></li>
+                    </ul>
+                </li>
+                <li><strong>Selected Payments</strong></li>
+                <li>
+                    <ul data-bind="foreach: selectedPayments">
+                        <li><span data-bind="text: PaymentMethodName + ' ' + (Remaining - $parent.GetPaymentTotalApplied(Id)).toFixed(2)"></span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/knockout")
+    <script>
+        moment.locale("th");
+    </script>
+    <script>
+        function StatementViewModel() {
+            var self = this;
+            self.companyId = ko.observable();
+            self.customerId = ko.observable();
+            self.bills = ko.observableArray();
+            self.selectedBills = ko.observableArray();
+            self.payments = ko.observableArray();
+            self.selectedPayments = ko.observableArray();
+            self.statements = ko.observableArray([
+                { BillId: ko.observable(), PaymentId: ko.observable(), Amount: ko.observable() }
+            ]);
+
+            self.bindBillAndPayment = function () {
+                if (self.companyId() && self.customerId()) {
+                    $.post("../Bill/GetRemainings", { companyId: self.companyId(), customerId: self.customerId() }, function (data) {
+                        self.bills(data);
+                    });
+                    $.post("./GetRemainings", { companyId: self.companyId(), customerId: self.customerId() }, function (data) {
+                        self.payments(data);
+                    });
+                } else {
+                    self.bills.removeAll();
+                    self.payments.removeAll();
+                }
+            };
+
+            self.AddStatement = function () {
+                var isInvalidStatementExists = false;
+                for (var i = 0; i < self.statements().length; ++i) {
+                    if (!self.statements()[i].Amount() || isNaN(self.statements()[i].Amount()) || parseFloat(self.statements()[i].Amount()) <= 0) {
+                        isInvalidStatementExists = true;
+                        break;
+                    }
+                }
+
+                if (!isInvalidStatementExists) {
+                    self.statements.push({
+                        BillId: ko.observable(),
+                        PaymentId: ko.observable(),
+                        Amount: ko.observable()
+                    });
+                }
+            };
+
+            self.RemoveStatement = function () {
+                self.statements.remove(this);
+            };
+
+            self.GetBillTotalApplied = function (billId) {
+                var totalApplied = 0;
+
+                for (var i = 0; i < self.statements().length; ++i) {
+                    if (self.statements()[i].BillId() == billId) {
+                        totalApplied += self.statements()[i].Amount() && !isNaN(self.statements()[i].Amount()) ? parseFloat(self.statements()[i].Amount()) : 0;
+                    }
+                }
+
+                return totalApplied;
+            };
+
+            self.GetPaymentTotalApplied = function (paymentId) {
+                var totalApplied = 0;
+
+                for (var i = 0; i < self.statements().length; ++i) {
+                    if (self.statements()[i].PaymentId() == paymentId) {
+                        totalApplied += self.statements()[i].Amount() && !isNaN(self.statements()[i].Amount()) ? parseFloat(self.statements()[i].Amount()) : 0;
+                    }
+                }
+
+                return totalApplied;
+            };
+        }
+
+        ko.applyBindings(new StatementViewModel());
+    </script>
+}

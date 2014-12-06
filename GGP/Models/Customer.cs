@@ -19,6 +19,7 @@ namespace GGP.Models
             this.Bills = new HashSet<Bill>();
             this.CustomerContacts = new HashSet<CustomerContact>();
             this.Inventories = new HashSet<Inventory>();
+            this.ARPayments = new HashSet<ARPayment>();
         }
     
         public long Id { get; set; }
@@ -32,5 +33,6 @@ namespace GGP.Models
         public virtual ICollection<Bill> Bills { get; set; }
         public virtual ICollection<CustomerContact> CustomerContacts { get; set; }
         public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<ARPayment> ARPayments { get; set; }
     }
 }

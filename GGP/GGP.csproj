@@ -415,6 +415,7 @@
     <Content Include="Views\ARPayment\Index.cshtml" />
     <Content Include="Views\ARPayment\Create.cshtml" />
     <Content Include="Views\ARPayment\Edit.cshtml" />
+    <Content Include="Views\ARPayment\Pay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
