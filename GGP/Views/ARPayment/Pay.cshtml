@@ -21,7 +21,7 @@
             <label class="control-label col-md-2">
                 ลูกค้า
             </label>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 @Html.DropDownList("CustomerId", (IEnumerable<SelectListItem>)ViewBag.Customers, "เลือกลูกค้า...", new { @class = "form-control", data_bind = "optionsCaption: 'เลือกลูกค้า...', value: customerId, event: { change: bindBillAndPayment }" })
             </div>
         </div>
@@ -29,7 +29,7 @@
             <label class="control-label col-md-2">
                 บิล
             </label>
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <div class="checkbox" data-bind="foreach: bills">
                     <label>
                         <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedBills">
@@ -42,7 +42,7 @@
             <label class="control-label col-md-2">
                 เงิน
             </label>
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <div class="checkbox" data-bind="foreach: payments">
                     <label>
                         <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.selectedPayments">
@@ -65,7 +65,7 @@
                             <select class="form-control" data-bind="options: $parent.selectedPayments, optionsText: 'PaymentMethodName', optionsValue: 'Id', value: PaymentId, attr: { name: 'statements[' + $index() + '].ARPaymentId' }"></select>
                         </div>
                         <div class="col-md-2">
-                            <input type="text" class="form-control" data-bind="textInput: Amount, event: { keyup: $root.AddStatement }, attr: { name: 'statements[' + $index() + '].Amount', required: $parent.statements().length - 1 != $index() }">
+                            <input type="text" class="form-control" data-bind="textInput: Amount, event: { keyup: $root.AddStatement }, attr: { name: 'statements[' + $index() + '].Amount', required: $index() == 0 || $parent.statements().length - 1 != $index() }">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-default" data-bind="enable: $root.statements().length > 1, click: $root.RemoveStatement"><span class="glyphicon glyphicon-trash"></span></button>
