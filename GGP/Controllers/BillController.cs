@@ -91,5 +91,27 @@ namespace GGP.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpPost]
+        public JsonResult GetRemainings(long companyId, long customerId)
+        {
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                var bills = (from bill in db.Bills.Include("BillARPayments").ToList()
+                             where bill.CompanyId == companyId
+                             && bill.CustomerId == customerId
+                             && bill.BillStatus.Status != "รับเงินแล้ว"
+                             && (!bill.BillARPayments.Any() || bill.Amount > bill.BillARPayments.Sum(x => x.Amount))
+                             select bill).ToList();
+
+                return Json(bills.Select(x => new
+                    {
+                        Id = x.Id,
+                        Number = x.Number,
+                        Amount = x.Amount,
+                        Remaining = x.Amount - (x.BillARPayments.Any() ? x.BillARPayments.Sum(y => y.Amount) : 0m)
+                    }));
+            }
+        }
     }
 }
