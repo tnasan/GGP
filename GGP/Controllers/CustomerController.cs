@@ -100,5 +100,22 @@ namespace GGP.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpPost]
+        public JsonResult GetCustomers(string query)
+        {
+            using (GGPDBEntities db = new GGPDBEntities())
+            {
+                var customers = from customer in db.Customers
+                                where customer.Name.Contains(query)
+                                select customer;
+                return Json(customers.Select(x =>
+                    new
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToList());
+            }
+        }
     }
 }

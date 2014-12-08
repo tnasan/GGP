@@ -39,7 +39,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerId, "ลูกค้า", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.DropDownListFor(model => model.CustomerId, (IEnumerable<SelectListItem>)ViewBag.Customers, new { @class = "form-control" })
+                @Html.HiddenFor(model => model.CustomerId)
+                <input type="text" class="form-control" id="customer" autocomplete="off">
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -82,10 +83,40 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
+    @Scripts.Render("~/bundles/typeahead")
     <script>
         jQuery.validator.methods.date = function (value, element) {
             var dateRegex = /^(0?[1-9]\/|[12]\d\/|3[01]\/){2}(19|20)\d\d$/;
             return this.optional(element) || dateRegex.test(value);
         };
+    </script>
+    <script>
+        var customers = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace('Name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: {
+                url: '../Customer/GetCustomers',
+                replace: function (url, query) {
+                    return url + "#" + query;
+                },
+                ajax: {
+                    /*beforeSend: function (jqXhr, settings) {
+                        settings.data = $.param({ query: $("#customer").val() });
+                    },*/
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: { query: function () { return $("#customer").val(); } },
+                    type: 'POST'
+                }
+            }
+        });
+        customers.initialize();
+
+        $("#customer").typeahead(null, {
+            displayKey: 'Name',
+            source: customers.ttAdapter()
+        }).on('typeahead:selected', function (event, datum) {
+            $("form input[name=CustomerId]").val(datum.Id);
+            console.log(datum);
+        });
     </script>
 }
