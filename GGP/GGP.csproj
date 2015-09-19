@@ -142,6 +142,7 @@
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CostingController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -377,6 +378,8 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\math.js" />
+    <Content Include="Scripts\math.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -391,6 +394,7 @@
     <Content Include="Scripts\typeahead.jquery.js" />
     <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Costing\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -447,6 +451,8 @@
     <Content Include="Views\ARPayment\Create.cshtml" />
     <Content Include="Views\ARPayment\Edit.cshtml" />
     <Content Include="Views\ARPayment\Pay.cshtml" />
+    <Content Include="Views\Costing\Batik.cshtml" />
+    <Content Include="Views\Costing\Fashion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

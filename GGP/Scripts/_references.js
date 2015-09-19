@@ -69,6 +69,7 @@
 /// <reference path="locales/bootstrap-datepicker.uk.min.js" />
 /// <reference path="locales/bootstrap-datepicker.vi.min.js" />
 /// <reference path="locales/bootstrap-datepicker.zh-tw.min.js" />
+/// <reference path="math.min.js" />
 /// <reference path="modernizr-2.8.3.js" />
 /// <reference path="moment.min.js" />
 /// <reference path="moment-with-locales.min.js" />
