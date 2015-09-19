@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace GGP.Controllers
 {
-    [Authorize]
     public class CostingController : Controller
     {
         // GET: Costing
