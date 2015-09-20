@@ -37,18 +37,27 @@
                     <input type="number" name="Grain" class="form-control" data-bind="textInput: Grain">
                     <div class="input-group-addon">%</div>
                 </div>
+                <p class="form-control-static">
+                    <span data-bind="text: GrainCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
             <label for="BleachingCost" class="control-label col-md-2">ค่าฟอก</label>
             <div class="col-md-2">
                 <input type="number" name="BleachingCost" class="form-control" data-bind="textInput: BleachingCost">
+                <p class="form-control-static">
+                    <span data-bind="text: BleachingCostCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
             <label for="PrintingCost" class="control-label col-md-2">ค่าพิมพ์</label>
             <div class="col-md-2">
                 <input type="number" name="PrintingCost" class="form-control" data-bind="textInput: PrintingCost">
+                <p class="form-control-static">
+                    <span data-bind="text: PrintingCostCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +84,7 @@
             <label class="control-label col-md-2">ผลลัพธ์</label>
             <div class="col-md-2">
                 <p class="form-control-static">
-                    <span data-bind="text: ResultCompute()"></span>
+                    <span data-bind="text: ResultCompute()"></span> บาท/หลา
                 </p>
             </div>
         </div>
@@ -119,12 +128,24 @@
             self.PrintingCost = ko.observable(0);
             self.IsScrap = ko.observable("true");
             self.Scrap = ko.observable(1.03);
-            self.ResultCompute = ko.computed(function () {
+            self.GrainCompute = ko.computed(function () {
                 return math.chain(self.Griege())
-                    .multiply(1.00 + (self.GrainType() == "Stretch" ? -1 : 1) * self.Grain() / 100)
-                    .add(self.BleachingCost())
-                    .add(self.PrintingCost())
+                    .multiply(1.00 + (self.GrainType() == "Stretch" ? -1 : 1) * self.Grain() / 100);
+            });
+            self.BleachingCostCompute = ko.computed(function () {
+                return math.chain(self.GrainCompute())
+                    .add(self.BleachingCost());
+            });
+            self.PrintingCostCompute = ko.computed(function () {
+                return math.chain(self.BleachingCostCompute())
+                    .add(self.PrintingCost());
+            });
+            self.ScrapCompute = ko.computed(function () {
+                return math.chain(self.PrintingCostCompute())
                     .multiply(self.IsScrap() == "true" ? self.Scrap() : 1);
+            });
+            self.ResultCompute = ko.computed(function () {
+                return self.ScrapCompute();
             });
         }
 
