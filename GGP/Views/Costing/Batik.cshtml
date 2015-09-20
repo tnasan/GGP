@@ -37,18 +37,27 @@
                     <input type="number" name="Grain" class="form-control" data-bind="textInput: Grain">
                     <div class="input-group-addon">%</div>
                 </div>
+                <p class="form-control-static">
+                    <span data-bind="text: GrainCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
             <label for="BleachingCost" class="control-label col-md-2">ค่าฟอก</label>
             <div class="col-md-2">
                 <input type="number" name="BleachingCost" class="form-control" data-bind="textInput: BleachingCost">
+                <p class="form-control-static">
+                    <span data-bind="text: BleachingCostCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
             <label for="PrintingCost" class="control-label col-md-2">ค่าพิมพ์</label>
             <div class="col-md-2">
                 <input type="number" name="PrintingCost" class="form-control" data-bind="textInput: PrintingCost">
+                <p class="form-control-static">
+                    <span data-bind="text: PrintingCostCompute()"></span> บาท/หลา
+                </p>
             </div>
         </div>
         <div class="form-group">
@@ -72,6 +81,9 @@
                         3M
                     </label>
                 </div>
+                <p class="form-control-static">
+                    <span data-bind="text: AmountCompute()"></span> บาท/กุลี
+                </p>
             </div>
         </div>
         <div class="form-group">
@@ -141,13 +153,28 @@
             self.PrintingCost = ko.observable(0);
             self.Amount = ko.observable(40);
             self.Package = ko.observable(30);
-            self.ResultCompute = ko.computed(function () {
+            self.GrainCompute = ko.computed(function () {
                 return math.chain(self.Griege())
-                    .multiply(1.00 + (self.GrainType() == "Stretch" ? -1 : 1) * self.Grain() / 100)
-                    .add(self.BleachingCost())
-                    .add(self.PrintingCost())
-                    .multiply(self.Amount())
+                    .multiply(1.00 + (self.GrainType() == "Stretch" ? -1 : 1) * self.Grain() / 100);
+            });
+            self.BleachingCostCompute = ko.computed(function () {
+                return math.chain(self.GrainCompute())
+                    .add(self.BleachingCost());
+            });
+            self.PrintingCostCompute = ko.computed(function () {
+                return math.chain(self.BleachingCostCompute())
+                    .add(self.PrintingCost());
+            });
+            self.AmountCompute = ko.computed(function () {
+                return math.chain(self.PrintingCostCompute())
+                    .multiply(self.Amount());
+            });
+            self.PackageCompute = ko.computed(function () {
+                return math.chain(self.AmountCompute())
                     .add(self.Package());
+            });
+            self.ResultCompute = ko.computed(function () {
+                return self.PackageCompute();
             });
         }
 
