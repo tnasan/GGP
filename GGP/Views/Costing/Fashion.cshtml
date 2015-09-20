@@ -5,3 +5,132 @@
 
 <h2>Fashion</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="Griege" class="control-label col-md-2">ผ้าดิบ</label>
+            <div class="col-md-2">
+                <input type="number" name="Griege" class="form-control" data-bind="textInput: Griege">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Grain" class="control-label col-md-2">การยืดหด</label>
+            <div class="col-md-2">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="GrainType" value="Stretch" data-bind="bsChecked: GrainType" checked>
+                        ยืด
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="GrainType" value="Shrink" data-bind="bsChecked: GrainType">
+                        หด
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 col-lg-offset-2">
+                <div class="input-group">
+                    <input type="number" name="Grain" class="form-control" data-bind="textInput: Grain">
+                    <div class="input-group-addon">%</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="BleachingCost" class="control-label col-md-2">ค่าฟอก</label>
+            <div class="col-md-2">
+                <input type="number" name="BleachingCost" class="form-control" data-bind="textInput: BleachingCost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="PrintingCost" class="control-label col-md-2">ค่าพิมพ์</label>
+            <div class="col-md-2">
+                <input type="number" name="PrintingCost" class="form-control" data-bind="textInput: PrintingCost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Scrap" class="control-label col-md-2">ผ้าเสีย</label>
+            <div class="col-md-4">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="IsScrap" value="true" autocomplete="off" checked data-bind="bsChecked: IsScrap">
+                        เปิด
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="IsScrap" value="false" autocomplete="off" data-bind="bsChecked: IsScrap">
+                        ปิด
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 col-md-offset-2">
+                <input type="number" name="Scrap" class="form-control" data-bind="textInput: Scrap, enable: IsScrap() == 'true'">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">ผลลัพธ์</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: ResultCompute()"></span>
+                </p>
+                <p class="form-control-static">
+                    <span data-bind="text: GrainType() + ' ' + typeof(GrainType())"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/mathjs")
+    <script>
+        ko.bindingHandlers.bsChecked = {
+            init: function (element, valueAccessor, allBindingsAccessor,
+            viewModel, bindingContext) {
+                var value = valueAccessor();
+                var newValueAccessor = function () {
+                    return {
+                        change: function () {
+                            value(element.value);
+                        }
+                    }
+                };
+                ko.bindingHandlers.event.init(element, newValueAccessor,
+                allBindingsAccessor, viewModel, bindingContext);
+            },
+            update: function (element, valueAccessor, allBindingsAccessor,
+            viewModel, bindingContext) {
+                if ($(element).val() == ko.unwrap(valueAccessor())) {
+                    setTimeout(function () {
+                        $(element).closest('.btn').button('toggle');
+                    }, 1);
+                }
+            }
+        }
+
+        function FashionViewModel() {
+            var self = this;
+            self.Griege = ko.observable(0);
+            self.GrainType = ko.observable("Stretch");
+            self.Grain = ko.observable(0);
+            self.BleachingCost = ko.observable(0);
+            self.PrintingCost = ko.observable(0);
+            self.IsScrap = ko.observable("true");
+            self.Scrap = ko.observable(1.03);
+            self.ResultCompute = ko.computed(function () {
+                return math.chain(self.Griege())
+                    .multiply(1.00 + (self.GrainType() == "Stretch" ? -1 : 1) * self.Grain() / 100)
+                    .add(self.BleachingCost())
+                    .add(self.PrintingCost())
+                    .multiply(self.IsScrap() == "true" ? self.Scrap() : 1);
+            });
+        }
+
+        ko.applyBindings(new FashionViewModel());
+    </script>
+}
