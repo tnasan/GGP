@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "NPC/Package of 20 pieces of cloth";
+}
+
+<h2>NPC/Package of 20 pieces of cloth</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label for="SalesPrice" class="control-label col-md-2">Sales Price</label>
+            <div class="col-md-2">
+                <input type="number" name="SalesPrice" class="form-control" data-bind="textInput: SalesPrice">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Cost" class="control-label col-md-2">Cost</label>
+            <div class="col-md-2">
+                <input type="number" name="Cost" class="form-control" data-bind="textinput: Cost">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Margin" class="control-label col-md-2">Margin</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: Margin()"></span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Quantity" class="control-label col-md-2">Quantity</label>
+            <div class="col-md-4">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="radio" name="Quantity1" value="6000" autocomplete="off" checked data-bind="bsChecked: Quantity1">
+                        50P<br>
+                        6000Y
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="Quantity1" value="7200" autocomplete="off" data-bind="bsChecked: Quantity1">
+                        60P<br>
+                        7200Y
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="Quantity1" value="8400" autocomplete="off" data-bind="bsChecked: Quantity1">
+                        70P<br>
+                        8400Y
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4 col-md-offset-2">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="Quantity2" value="40" autocomplete="off" checked data-bind="bsChecked: Quantity2">
+                        2Y
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="Quantity2" value="44.44" autocomplete="off" data-bind="bsChecked: Quantity2">
+                        2M
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="Quantity2" value="66.66" autocomplete="off" data-bind="bsChecked: Quantity2">
+                        3M
+                    </label>
+                </div>
+                <p class="form-control-static">
+                    <span data-bind="text: QuantityComputed()"></span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NetProfit" class="control-label col-md-2">Net Profit</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: NetProfit()"></span> บาท
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NetCost" class="control-label col-md-2">Net Cost</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: NetCost()"></span> บาท
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Project Profit (%)</label>
+            <div class="col-md-2">
+                <p class="form-control-static">
+                    <span data-bind="text: ProjectProfit()"></span>
+                </p>
+        </div>
+            </div>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/mathjs")
+    <script>
+        ko.bindingHandlers.bsChecked = {
+            init: function (element, valueAccessor, allBindingsAccessor,
+            viewModel, bindingContext) {
+                var value = valueAccessor();
+                var newValueAccessor = function () {
+                    return {
+                        change: function () {
+                            value(element.value);
+                        }
+                    }
+                };
+                ko.bindingHandlers.event.init(element, newValueAccessor,
+                allBindingsAccessor, viewModel, bindingContext);
+            },
+            update: function (element, valueAccessor, allBindingsAccessor,
+            viewModel, bindingContext) {
+                if ($(element).val() == ko.unwrap(valueAccessor())) {
+                    setTimeout(function () {
+                        $(element).closest('.btn').button('toggle');
+                    }, 1);
+                }
+            }
+        }
+
+        function NPC20ClothesViewModel() {
+            var self = this;
+            self.SalesPrice = ko.observable(0);
+            self.Cost = ko.observable(0);
+            self.Margin = ko.computed(function () {
+                return math.chain(self.SalesPrice())
+                    .subtract(self.Cost())
+                    .done();
+            });
+            self.Quantity1 = ko.observable(6000);
+            self.Quantity2 = ko.observable(40);
+            self.QuantityComputed = ko.computed(function () {
+                return math.chain(self.Quantity1())
+                    .divide(self.Quantity2())
+                    .done();
+            });
+            self.NetProfit = ko.computed(function () {
+                return math.chain(self.Margin())
+                    .multiply(self.QuantityComputed())
+                    .done();
+            });
+            self.NetCost = ko.computed(function () {
+                return math.chain(self.Cost())
+                    .multiply(self.QuantityComputed())
+                    .done();
+            });
+            self.ProjectProfit = ko.computed(function () {
+                return math.chain(self.NetProfit())
+                    .divide(self.NetCost())
+                    .multiply(100)
+                    .done();
+            });
+        }
+
+        ko.applyBindings(new NPC20ClothesViewModel());
+    </script>
+}
