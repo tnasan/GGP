@@ -456,7 +456,7 @@
     <Content Include="Views\ARPayment\Pay.cshtml" />
     <Content Include="Views\Costing\Batik.cshtml" />
     <Content Include="Views\Costing\Fashion.cshtml" />
-    <Content Include="Views\Costing\NPC20Clothes.cshtml" />
+    <Content Include="Views\Costing\NPC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

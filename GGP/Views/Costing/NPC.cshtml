@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "NPC/Package of 20 pieces of cloth";
+    ViewBag.Title = "NPC";
 }
 
 <h2>NPC/Package of 20 pieces of cloth</h2>
@@ -55,12 +55,16 @@
         <div class="form-group">
             <div class="col-md-4 col-md-offset-2">
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="radio" name="Quantity2" value="40" autocomplete="off" checked data-bind="bsChecked: Quantity2">
-                        2Y
+                    <label class="btn btn-success">
+                        <input type="radio" name="Quantity2" value="1" autocomplete="off" data-bind="bsChecked: Quantity2">
+                        1Y
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="Quantity2" value="44.44" autocomplete="off" data-bind="bsChecked: Quantity2">
+                        <input type="radio" name="Quantity2" value="40" autocomplete="off" data-bind="bsChecked: Quantity2">
+                        2Y
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" name="Quantity2" value="44.44" autocomplete="off" checked data-bind="bsChecked: Quantity2">
                         2M
                     </label>
                     <label class="btn btn-default">
@@ -138,7 +142,7 @@
                     .done();
             });
             self.Quantity1 = ko.observable(6000);
-            self.Quantity2 = ko.observable(40);
+            self.Quantity2 = ko.observable(44.44);
             self.QuantityComputed = ko.computed(function () {
                 return math.chain(self.Quantity1())
                     .divide(self.Quantity2())

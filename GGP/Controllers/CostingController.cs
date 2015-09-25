@@ -24,12 +24,7 @@ namespace GGP.Controllers
             return View();
         }
 
-        public ActionResult NPC20Clothes()
-        {
-            return View();
-        }
-
-        public ActionResult NPCYard()
+        public ActionResult NPC()
         {
             return View();
         }
