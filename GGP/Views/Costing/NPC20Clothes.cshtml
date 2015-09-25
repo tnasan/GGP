@@ -77,7 +77,7 @@
             <label for="NetProfit" class="control-label col-md-2">Net Profit</label>
             <div class="col-md-2">
                 <p class="form-control-static">
-                    <span data-bind="text: NetProfit()"></span> บาท
+                    <span data-bind="text: numeral(NetProfit()).format('0,0.00')"></span> บาท
                 </p>
             </div>
         </div>
@@ -85,7 +85,7 @@
             <label for="NetCost" class="control-label col-md-2">Net Cost</label>
             <div class="col-md-2">
                 <p class="form-control-static">
-                    <span data-bind="text: NetCost()"></span> บาท
+                    <span data-bind="text: numeral(NetCost()).format('0,0.00')"></span> บาท
                 </p>
             </div>
         </div>
@@ -93,7 +93,7 @@
             <label class="control-label col-md-2">Project Profit (%)</label>
             <div class="col-md-2">
                 <p class="form-control-static">
-                    <span data-bind="text: ProjectProfit()"></span>
+                    <span data-bind="text: numeral(ProjectProfit()).format('0,0.00')"></span>
                 </p>
         </div>
             </div>

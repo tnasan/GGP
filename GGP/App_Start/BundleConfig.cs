@@ -54,7 +54,8 @@ namespace GGP
             bundles.Add(new ScriptBundle("~/bundles/jquery-datatables-bootstrap", "//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/mathjs").Include(
-                      "~/Scripts/math.js"));
+                      "~/Scripts/math.js",
+                      "~/Scripts/numeral/numeral.js"));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
