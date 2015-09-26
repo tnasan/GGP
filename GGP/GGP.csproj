@@ -453,9 +453,8 @@
     <Content Include="Views\ARPayment\Create.cshtml" />
     <Content Include="Views\ARPayment\Edit.cshtml" />
     <Content Include="Views\ARPayment\Pay.cshtml" />
-    <Content Include="Views\Costing\Batik.cshtml" />
-    <Content Include="Views\Costing\Fashion.cshtml" />
-    <Content Include="Views\Costing\NPC.cshtml" />
+    <Content Include="Views\Costing\Cost.cshtml" />
+    <Content Include="Views\Costing\Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

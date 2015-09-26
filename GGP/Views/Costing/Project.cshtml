@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "NPC";
+    ViewBag.Title = "Project";
 }
 
-<h2>NPC</h2>
+<h2>Project</h2>
 
 @using (Html.BeginForm())
 {
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="Quantity" class="control-label col-md-2">Quantity</label>
+            <label for="Quantity" class="control-label col-md-2">Quantity<br>(ผ้าหลา = 1Y)</label>
             <div class="col-md-4">
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-primary active">
@@ -55,7 +55,7 @@
         <div class="form-group">
             <div class="col-md-4 col-md-offset-2">
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-success">
+                    <label class="btn btn-default">
                         <input type="radio" name="Quantity2" value="1" autocomplete="off" data-bind="bsChecked: Quantity2">
                         1Y
                     </label>

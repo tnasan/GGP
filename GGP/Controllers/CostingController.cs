@@ -14,17 +14,12 @@ namespace GGP.Controllers
             return View();
         }
 
-        public ActionResult Batik()
+        public ActionResult Cost()
         {
             return View();
         }
-
-        public ActionResult Fashion()
-        {
-            return View();
-        }
-
-        public ActionResult NPC()
+        
+        public ActionResult Project()
         {
             return View();
         }
